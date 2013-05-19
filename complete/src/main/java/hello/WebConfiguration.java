@@ -42,7 +42,6 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
     @Configuration
     public static class ThymeleafConfiguration {
 
-
         @Bean
         public SpringTemplateEngine templateEngine(Collection<ITemplateResolver> templateResolvers) {
             SpringTemplateEngine engine = new SpringTemplateEngine();
@@ -54,28 +53,4 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
             return engine;
         }
     }
-
-
-
-    /*<bean id="templateResolver"
-    class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
-    <property name="prefix" value="/WEB-INF/thymeleaf/" />
-    <property name="suffix" value=".html" />
-    <property name="templateMode" value="HTML5" />
-    <!-- Template cache is set to false (default is true).        -->
-    <property name="cacheable" value="false" />
-</bean>
-
-<bean id="templateEngine" class="org.thymeleaf.spring3.SpringTemplateEngine">
-    <property name="templateResolver" ref="templateResolver" />
-</bean> */
- /*   @Bean public ITemplateResolver iTemplateResolver (){
-        ServletContextTemplateResolver  servletContextTemplateResolver = new ServletContextTemplateResolver() ;
-        servletContextTemplateResolver.setPrefix("/");
-    }
-    @Bean public SpringTemplateEngine springTemplateEngine ( ITemplateResolver iTemplateResolver ) {
-        SpringTemplateEngine springTemplateEngine = new SpringTemplateEngine()   ;
-        springTemplateEngine.setTemplateResolver( iTemplateResolver);
-        return springTemplateEngine ;
-    }*/
 }

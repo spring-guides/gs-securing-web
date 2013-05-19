@@ -1,6 +1,9 @@
 package hello;
 
 
+/**
+ * @author Josh Long
+ */
 public class Pages {
 
     public static final String HOME = "home";
@@ -18,6 +21,4 @@ public class Pages {
     public static String[] getInsecurePages() {
         return insecurePages;
     }
-
-
 }

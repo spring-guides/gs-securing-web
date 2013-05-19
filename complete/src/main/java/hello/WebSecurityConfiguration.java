@@ -9,6 +9,9 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 import javax.servlet.http.*;
 
 
+/**
+ * @author Josh Long
+ */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
