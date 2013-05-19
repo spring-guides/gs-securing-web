@@ -1,8 +1,11 @@
 package hello;
 
-import org.springframework.bootstrap.context.annotation.EnableAutoConfiguration;
+import org.springframework.bootstrap.context.annotation.*;
 import org.springframework.context.annotation.*;
 import org.springframework.web.servlet.config.annotation.*;
+import org.thymeleaf.extras.springsecurity3.dialect.SpringSecurityDialect;
+import org.thymeleaf.spring3.SpringTemplateEngine;
+import org.thymeleaf.templateresolver.ITemplateResolver;
 
 import java.util.*;
 
@@ -34,4 +37,45 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer c) {
         c.enable();
     }
+
+    @ConditionalOnMissingBean(SpringTemplateEngine.class)
+    @Configuration
+    public static class ThymeleafConfiguration {
+
+
+        @Bean
+        public SpringTemplateEngine templateEngine(Collection<ITemplateResolver> templateResolvers) {
+            SpringTemplateEngine engine = new SpringTemplateEngine();
+            for (ITemplateResolver templateResolver : templateResolvers) {
+                engine.addTemplateResolver(templateResolver);
+            }
+            // we need this custom SpringTemplateEngine specifically to add support for Spring Security
+            engine.addDialect(new SpringSecurityDialect());
+            return engine;
+        }
+    }
+
+
+
+    /*<bean id="templateResolver"
+    class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
+    <property name="prefix" value="/WEB-INF/thymeleaf/" />
+    <property name="suffix" value=".html" />
+    <property name="templateMode" value="HTML5" />
+    <!-- Template cache is set to false (default is true).        -->
+    <property name="cacheable" value="false" />
+</bean>
+
+<bean id="templateEngine" class="org.thymeleaf.spring3.SpringTemplateEngine">
+    <property name="templateResolver" ref="templateResolver" />
+</bean> */
+ /*   @Bean public ITemplateResolver iTemplateResolver (){
+        ServletContextTemplateResolver  servletContextTemplateResolver = new ServletContextTemplateResolver() ;
+        servletContextTemplateResolver.setPrefix("/");
+    }
+    @Bean public SpringTemplateEngine springTemplateEngine ( ITemplateResolver iTemplateResolver ) {
+        SpringTemplateEngine springTemplateEngine = new SpringTemplateEngine()   ;
+        springTemplateEngine.setTemplateResolver( iTemplateResolver);
+        return springTemplateEngine ;
+    }*/
 }

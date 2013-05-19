@@ -1,4 +1,6 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <title>Spring Security Example
     </title>
@@ -18,7 +20,10 @@
 <div sec:authorize="hasRole('ROLE_USER')">
     This content is only shown to users.
 </div>
-Logged user: <span sec:authentication="name">Bob</span>
-Roles: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span>
+<div>
+    <strong>Logged-in user</strong>: <span sec:authentication="name">Bob</span> <br/>
+
+    <strong>Roles</strong>: <span sec:authentication="principal.authorities">[ROLE_USER, ...]</span>
+</div>
 </body>
 </html>
