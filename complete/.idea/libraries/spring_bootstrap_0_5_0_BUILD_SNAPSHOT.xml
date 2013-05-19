@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="spring-bootstrap-0.5.0.BUILD-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/artifacts-23/filestore/org.springframework.bootstrap/spring-bootstrap/0.5.0.BUILD-SNAPSHOT/jar/237ef0fa1d3b5210a7100077cf9f6e705c1044b9/spring-bootstrap-0.5.0.BUILD-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/artifacts-23/filestore/org.springframework.bootstrap/spring-bootstrap/0.5.0.BUILD-SNAPSHOT/source/df1f84413fcc9cd641eb83463b687fcd4592d925/spring-bootstrap-0.5.0.BUILD-SNAPSHOT-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
