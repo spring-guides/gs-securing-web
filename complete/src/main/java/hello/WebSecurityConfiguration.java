@@ -20,37 +20,33 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static final String ADMIN_ROLE = "ADMIN";
 
     @Override
-    public void configure(org.springframework.security.config.annotation.web.WebSecurityConfiguration builder) throws Exception {
-        builder.ignoring().antMatchers("/resources/**");
-    }
-
-    @Override
     protected void configure(HttpConfigurator http) throws Exception {
 
         // cordon off resources by URL
         ExpressionUrlAuthorizations expressionUrlAuthorizations = http.authorizeUrls();
 
-        for (String securePage : Pages.getSecurePages())
-            expressionUrlAuthorizations.antMatchers("/" + securePage).hasRole(USER_ROLE);
+        for (Page securePage : Page.getSecurePages())
+            expressionUrlAuthorizations.antMatchers(securePage.getUrl()).hasRole(USER_ROLE);
 
-        for (String insecurePage : Pages.getInsecurePages())
-            expressionUrlAuthorizations.antMatchers("/" + insecurePage).permitAll();
+        for (Page insecurePage : Page.getInsecurePages())
+            expressionUrlAuthorizations.antMatchers(insecurePage.getUrl()).permitAll();
 
         // login
         http.formLogin()
-                .defaultSuccessUrl("/" + Pages.HOME)
+                .defaultSuccessUrl(Page.HOME.getUrl())
                 .permitAll();  // set permitAll for all URLs associated with Form Login
 
         // logout
         LogoutHandler logoutHandler = new LogoutHandler() {
             @Override
             public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-                if (null != authentication)
+                if (null != authentication) {
                     System.out.println(String.format("logging the user ('%s') out!", "" + authentication.getName()));
+                }
             }
         };
         http.logout()
-                .logoutSuccessUrl("/" + Pages.WELCOME)
+                .logoutSuccessUrl(Page.WELCOME.getUrl())
                 .addLogoutHandler(logoutHandler);
     }
 
