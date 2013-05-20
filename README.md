@@ -340,6 +340,8 @@ When a user is successfully authenticated, he is shown the `src/main/resources/t
 </html>
 ```
 
+There's a link at the top of the page to the URL `/logout` that is processed by Spring Security and that cleans up any user context associated with the current `Authentication`, effectively signing the user out of the application.
+
 We use the `sec:authorize` tag to evaluate an authorization expression and - if the expression returns true - render the tag's body. We use the `sec:authentication` tag to dereference properties of the current Spring Security `Authentication` object using the Spring Security Expression language and then emit the resulting values into the markup.
 
 Related Resources
