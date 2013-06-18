@@ -1,85 +1,86 @@
-Getting Started with Spring Security Login Forms
-=======================================
+# Getting Started: Creating a Login Page
 
-Introduction
-------------
+What You'll Build
+-----------------
 
-### What You'll Build
+This guide walks you through creating a simple web application that has resources that are protected with Spring Security and require login through a login form.
 
-This guide will take you through creating a simple web application that has resources that are protected behind a  Spring Security-powered login form. This application will also have a Spring Security-powered logout form.
+What You'll Need
+----------------
 
-### What You'll Need
+- About 15 minutes
+- A favorite text editor or IDE
+- {!include#prereq-editor-jdk-buildtools}
 
-1. About 15 minutes
-2. A favorite text editor or IDE
-3. JDK 7 or better
-4. Your choice of Maven (3.0+) or Gradle (1.5+)
-
-### How to Complete this Guide
-Like all Spring's [Getting Started guides](/getting-started), you can choose to start from scratch and complete each step, or you can jump past basic setup steps that may already be familiar to you. Either way, you'll end up with working code.
-
-To **start from scratch**, just move on to the next section and start [setting up the project](#scratch).
-
-If you'd like to **skip the basics**, then do the following:
-
- - [download][zip] and unzip the source repository for this guide—or clone it using [git](/understanding/git):
-`git clone git@github.com:springframework-meta/gs-springsecurity-login-logout.git`
- - cd into `gs-springsecurity-login-logout/initial`
- - jump ahead to [Configuring a Spring Security Login Form](#initial).
-
-And **when you're finished**, you can check your results against the the code in `gs-springsecurity-login-logout/complete`.
+## {!include#how-to-complete-this-guide}
 
 <a name="scratch"></a>
-Setting up the project
-----------------------
-First you'll need to set up a basic build script. You can use any build system you like when building apps with Spring, but we've included what you'll need to work with [Maven](https://maven.apache.org) and [Gradle](http://gradle.org) here. If you're not familiar with either of these, you can refer to our [Getting Started with Maven](../gs-maven/README.md) or [Getting Started with Gradle](../gs-gradle/README.md) guides.
+Set up the project
+------------------
 
-### Gradle
+{!include#build-system-intro}
 
-Create a Gradle buildfile that looks like this:
+{!include#create-directory-structure-hello}
 
-`pom.xml`
-```xml
-apply plugin: 'java'
-apply plugin: 'eclipse-wtp'
-apply plugin: 'idea'
-apply plugin: 'application'
+### Create a Maven POM
 
-mainClassName = "hello.Main"
+    {!include:initial/pom.xml}
 
-repositories {
-    mavenCentral()
-    maven {
-        url "http://repo.springsource.org/snapshot"
-    }
-}
+{!include#bootstrap-starter-pom-disclaimer}
 
-dependencies {
-	compile "org.springframework.bootstrap:spring-bootstrap-web-starter:0.5.0.BUILD-SNAPSHOT"
-	compile "org.springframework:spring-webmvc:3.2.0.RELEASE"
-    compile "org.springframework.security:spring-security-acl:3.1.3.RELEASE"
-    compile "org.mortbay.jetty:servlet-api:3.0.20100224"
-    compile "org.springframework:spring-webmvc:3.2.0.RELEASE"
-    compile "org.springframework.security:spring-security-javaconfig:1.0.0.CI-SNAPSHOT"
-    compile "org.thymeleaf:thymeleaf-spring3:2.0.16"
-    compile "org.thymeleaf.extras:thymeleaf-extras-springsecurity3:2.0.0"
-}
+<a name="initial"></a>
+Setup Spring Security
+---------------------
 
-task wrapper(type: Wrapper) {
-	gradleVersion = '1.5'
-}
 
-```
 
-> > > TODO: mention that we're using Spring Bootstrap's [_starter POMs_](../gs-bootstrap-starter) here.
 
-Experienced Maven users who feel nervous about using an external parent project: don't panic, you can take it out later, it's just there to reduce the amount of code you have to write to get started.
 
-### Maven
 
-> > > TODO: paste complete pom.xml 
 
-Add the following within the `dependencies { }` section of your build.gradle file:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=== OLD STUFF ===
+
 
 Creating a Configuration Class for Our Spring MVC Web Application
 ------------------------------

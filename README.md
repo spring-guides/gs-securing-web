@@ -1,37 +1,175 @@
-Getting Started with Spring Security Login Forms
-=======================================
+# Getting Started: Creating a Login Page
 
-Introduction
-------------
+What You'll Build
+-----------------
 
-### What You'll Build
+This guide walks you through creating a simple web application that has resources that are protected with Spring Security and require login through a login form.
 
-This guide will take you through creating a simple web application that has resources that are protected behind a  Spring Security-powered login form. This application will also have a Spring Security-powered logout form.
+What You'll Need
+----------------
 
-### What You'll Need
+- About 15 minutes
+- A favorite text editor or IDE
+ - A favorite text editor or IDE
+ - [JDK 6][jdk] or later
+ - [Maven 3.0][mvn] or later
 
-1. About 15 minutes
-2. A favorite text editor or IDE
-3. JDK 7 or better
-4. Your choice of Maven (3.0+) or Gradle (1.5+)
+[jdk]: http://www.oracle.com/technetwork/java/javase/downloads/index.html
+[mvn]: http://maven.apache.org/download.cgi
 
-### How to Complete this Guide
-Like all Spring's [Getting Started guides](/getting-started), you can choose to start from scratch and complete each step, or you can jump past basic setup steps that may already be familiar to you. Either way, you'll end up with working code.
+How to complete this guide
+--------------------------
 
-To **start from scratch**, just move on to the next section and start [setting up the project](#scratch).
+Like all Spring's [Getting Started guides](/getting-started), you can start from scratch and complete each step, or you can bypass basic setup steps that are already familiar to you. Either way, you end up with working code.
 
-If you'd like to **skip the basics**, then do the following:
+To **start from scratch**, move on to [Set up the project](#scratch).
 
- - [download][zip] and unzip the source repository for this guide—or clone it using [git](/understanding/git):
-`git clone git@github.com:springframework-meta/gs-springsecurity-login-logout.git`
- - cd into `gs-springsecurity-login-logout/initial`
- - jump ahead to [Configuring a Spring Security Login Form](#initial).
+To **skip the basics**, do the following:
 
-And **when you're finished**, you can check your results against the the code in `gs-springsecurity-login-logout/complete`.
+ - [Download][zip] and unzip the source repository for this guide, or clone it using [git](/understanding/git):
+`git clone https://github.com/springframework-meta/{@project-name}.git`
+ - cd into `{@project-name}/initial`
+ - Jump ahead to [Create a resource representation class](#initial).
+
+**When you're finished**, you can check your results against the code in `{@project-name}/complete`.
 
 <a name="scratch"></a>
-Setting up the project
-----------------------
+Set up the project
+------------------
+
+First you set up a basic build script. You can use any build system you like when building apps with Spring, but the code you need to work with [Maven](https://maven.apache.org) and [Gradle](http://gradle.org) is included here. If you're not familiar with either, refer to [Getting Started with Maven](../gs-maven/README.md) or [Getting Started with Gradle](../gs-gradle/README.md).
+
+### Create the directory structure
+
+In a project directory of your choosing, create the following subdirectory structure; for example, with `mkdir -p src/main/java/hello` on *nix systems:
+
+    └── src
+        └── main
+            └── java
+                └── hello
+
+### Create a Maven POM
+
+`pom.xml`
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.springframework</groupId>
+	<artifactId>gs-springsecurity-login-logout</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<parent>
+		<groupId>org.springframework.bootstrap</groupId>
+		<artifactId>spring-bootstrap-starters</artifactId>
+		<version>0.5.0.BUILD-SNAPSHOT</version>
+	</parent>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.bootstrap</groupId>
+			<artifactId>spring-bootstrap-web-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-javaconfig</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.thymeleaf</groupId>
+			<artifactId>thymeleaf-spring3</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity3</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+	</dependencies>
+
+	<!-- TODO: remove once bootstrap goes GA -->
+	<repositories>
+		<repository>
+			<id>spring-snapshots</id>
+			<name>Spring Snapshots</name>
+			<url>http://repo.springsource.org/snapshot</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>spring-snapshots</id>
+			<name>Spring Snapshots</name>
+			<url>http://repo.springsource.org/snapshot</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
+</project>
+```
+
+TODO: mention that we're using Spring Bootstrap's [_starter POMs_](../gs-bootstrap-starter) here.
+
+Note to experienced Maven users who are unaccustomed to using an external parent project: you can take it out later, it's just there to reduce the amount of code you have to write to get started.
+
+<a name="initial"></a>
+Setup Spring Security
+---------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=== OLD STUFF ===
+
+
 First you'll need to set up a basic build script. You can use any build system you like when building apps with Spring, but we've included what you'll need to work with [Maven](https://maven.apache.org) and [Gradle](http://gradle.org) here. If you're not familiar with either of these, you can refer to our [Getting Started with Maven](../gs-maven/README.md) or [Getting Started with Gradle](../gs-gradle/README.md) guides.
 
 ### Gradle
