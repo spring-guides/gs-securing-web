@@ -9,13 +9,14 @@ import org.springframework.security.config.annotation.web.WebSecurityConfigurerA
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpConfiguration http) throws Exception {
         ExpressionUrlAuthorizations expressionUrlAuthorizations = http.authorizeUrls();
         expressionUrlAuthorizations.antMatchers("/hello").hasRole("USER");
-        expressionUrlAuthorizations.antMatchers("/", "/home", "/login").permitAll();
-        http.formLogin().defaultSuccessUrl("/hello").permitAll();
+        expressionUrlAuthorizations.antMatchers("/**").permitAll();
+
+        http.formLogin().defaultSuccessUrl("/hello");
         http.logout().logoutSuccessUrl("/");
     }
 

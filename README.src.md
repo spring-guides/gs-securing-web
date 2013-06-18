@@ -28,328 +28,104 @@ Set up the project
 
 {!include#bootstrap-starter-pom-disclaimer}
 
+### Create an unsecured web application
+
+Before you can apply security to a web application, you'll need a web application to secure. The steps in this section will walk you through creating a very simple web application. Then you'll secure it with Spring Security in the next section.
+
+The web application will include two simple views: A home page and a "Hello World" page. The home page is defined in the following Thymeleaf template:
+
+    {!include:initial/src/main/resources/templates/home.html}
+
+As you can see, this simple view include a link to the page at "/hello". That is defined in the following Thymeleaf template:
+
+    {!include:initial/src/main/resources/templates/hello.html}
+
+The web application will be based on Spring MVC. Therefore, you'll need to configure Spring MVC and setup view controllers to expose these templates. Here's a configuration class for configuring Spring MVC in the application.
+
+    {!include:initial/src/main/java/hello/MvcConfig.java}
+
+The `@EnableWebMvc` annotation configures much of Spring MVC. Meanwhile, the `addViewControllers()` method (overriding the method of the same name in `WebMvcConfigurerAdapter`) adds four view controllers. Two of the view controllers reference the view whose name is "home" (defined in `home.html`) and another references the view named "hello" (defined in `hello.html`). The fourth view controller references another view named "login". You'll create that view in the next section.
+
+At this point, you could jump ahead to the _[Run the application](#run)_ section and run the application. It will work near-perfectly (the logout link won't work, but otherwise it's a functioning Spring MVC application).
+
+With the base simple web application created, now it's time to add security to it.
+
 <a name="initial"></a>
 Setup Spring Security
 ---------------------
 
+Suppose that you want to prevent unauthorized users from viewing the greeting page at "/hello". As it is now, if a user clicks the link on the home page, they'll be shown the greeting with no barriers to stop them. Therefore, you'll need to add a barrier that forces the user to sign in before seeing that page.
 
+To do that, you'll need to configure Spring Security in the application. Here's a security configuration that will ensure that only authenticated users can see the secret greeting:
 
+    {!include:complete/src/main/java/hello/WebSecurityConfig.java}
 
+The `WebSecurityConfig` class is annotated with `@EnableWebSecurity` to enable Spring Security's web security support. It also extends `WebSecurityConfigurerAdapter` and overrides a couple of its methods to set some specifics of the web security configuration.
 
+The `configure()` method defines which URL paths should be secured and which should not. Specifically, the "/hello" path is configured to require that the user have "USER" role. If not then it could mean that the user hasn't signed in yet and the user will be automatically taken to the login page. Meanwhile, the "/**" path (using Ant-style wildcarding to indicate all paths not previously constrained) is configured to permit access to all users, authenticated or not. 
 
+THe `configure()` method goes on to indicate that after a successful login the user's browser should be redirected to "/hello". And, if the user logs out, then they should be redirected to "/".
 
+As for the `registerAuthentication()` method, it sets up an in-memory user store with a single user. That user is given a username of "user", a password of "password", and a role of "USER".
 
+All that's left to do is create the login page. There's already a view controller for the "login" view, so you'll only need to create the login view itself:
 
+    {!include:complete/src/main/resources/templates/login.html}
 
+As you can see, this Thymeleaf template simply presents a form that captures a username and password and posts them to "/login". As configured, Spring Security provides a filter that intercepts that request and authenticates the user.
 
+Make the application executable
+-------------------------------
 
+Although it is possible to package this service as a traditional _web application archive_ or [WAR][u-war] file for deployment to an external application server, the simpler approach demonstrated below creates a _standalone application_. You package everything in a single, executable JAR file, driven by a good old Java `main()` method. And along the way, you use Spring's support for embedding the [Tomcat][u-tomcat] servlet container as the HTTP runtime, instead of deploying to an external instance.
 
+### Create a main class
 
+    {!include:complete/src/main/java/hello/Application.java}
 
+The `main()` method defers to the [`SpringApplication`][] helper class, providing `Application.class` as an argument to its `run()` method. This tells Spring to read the annotation metadata from `Application` and to manage it as a component in the _[Spring application context][u-application-context]_.
 
+The `@ComponentScan` annotation tells Spring to search recursively through the `hello` package and its children for classes marked directly or indirectly with Spring's [`@Component`][] annotation. This directive ensures that Spring finds and registers the `WebConfig` and `WebSecurityConfig`, because they are marked with `@Configuration`, which in turn is a kind of `@Component` annotation. In effect, those configuration classes will also be used to configure Spring.
 
+The [`@EnableAutoConfiguration`][] annotation switches on reasonable default behaviors based on the content of your classpath. For example, because the application depends on the embeddable version of Tomcat (tomcat-embed-core.jar), a Tomcat server is set up and configured with reasonable defaults on your behalf. And because the application also depends on Spring MVC (spring-webmvc.jar), a Spring MVC [`DispatcherServlet`][] is configured and registered for you — no `web.xml` necessary! Auto-configuration is a powerful, flexible mechanism. See the [API documentation][`@EnableAutoConfiguration`] for further details.
 
+### {!include#build-an-executable-jar}
 
+<a name="run"></a>
+Run the application
+-------------------
 
+Now you can run the application from the jar as well, and distribute that as an executable artifact:
+```
+$ java -jar target/gs-securing-web-0.1.0.jar
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-=== OLD STUFF ===
-
-
-Creating a Configuration Class for Our Spring MVC Web Application
-------------------------------
-The first step is to set up a simple Spring configuration class, `hello.WebConfiguration`, for the Spring MVC components in our application. It'll look like this:
-
-`src/main/java/hello/WebConfiguration.java`
-
-```java
-package hello;
-
-import org.springframework.bootstrap.context.annotation.EnableAutoConfiguration;
-import org.springframework.context.annotation.*;
-import org.springframework.web.servlet.config.annotation.*;
-import org.thymeleaf.extras.springsecurity3.dialect.SpringSecurityDialect;
-import org.thymeleaf.spring3.SpringTemplateEngine;
-import org.thymeleaf.templateresolver.ITemplateResolver;
-
-import java.util.*;
-
-@EnableAutoConfiguration
-@Configuration
-@ComponentScan
-@EnableWebMvc
-@Import(WebSecurityConfiguration.class)
-public class WebConfiguration extends WebMvcConfigurerAdapter {
-
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        for (Page p : Page.getInsecurePages()) {
-            registry.addViewController(p.getUrl()).setViewName(p.getView());
-        }
-        for (Page p : Page.getSecurePages()) {
-            registry.addViewController(p.getUrl()).setViewName(p.getView());
-        }
-    }
-
-    @Bean
-    public SpringTemplateEngine templateEngine(Collection<ITemplateResolver> templateResolvers) {
-        SpringTemplateEngine engine = new SpringTemplateEngine();
-        for (ITemplateResolver templateResolver : templateResolvers) {
-            engine.addTemplateResolver(templateResolver);
-        }
-        engine.addDialect(new SpringSecurityDialect());
-        return engine;
-    }
-
-}
-
+... app starts up ...
 ```
 
-This class is fairly concise. [`@EnableWebMvc`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/web/servlet/config/annotation/EnableWebMvc.html) handles the registration of a number of components that enable Spring's support for annotation-based controllers—you'll build one of those in an upcoming step. And we've also annotated the configuration class with [`@ComponentScan`](http://static.springsource.org/spring/docs/3.2.x/javadoc-api/org/springframework/context/annotation/ComponentScan.html) which tells Spring to scan the `hello` package for those controllers (along with any other annotated component classes). 
+Once the application starts up, point your browser to http://localhost:8080. You should be greeted by the home page:
 
-We've registered a Thymeleaf `SpringTemplateEngine` bean, adding support for the Spring Security namespace support. 
+![The application's home page](images/home.png)
 
-We used a little convention-over-configuration-centric code to automatically map all the pages in our application to URLs in our `addViewControllers` method. A page `/foo` would map to the view called `foo`, for example. We also mapped the URL `/` to show the page `welcome`. To avoid repeating so-called *magic strings* in our code, we'll use an enum - `hello.Page` - to hold constants to represent each page in our application to simplify our security configuration and Spring MVC configuration. Here's the class(`src/main/java/hello/Pages.java`):
+When you click on the link, it should attempt to take you to the greeting page at `/hello`. But because that page is secured and you have not yet logged in, it will instead take you to the login page:
 
-```java
-package hello;
+![The login page](images/login.png)
 
-import java.util.*;
+At the login page, you can sign in as the test user by entering "user" and "password" for the username and password fields, respectively. Once you submit the login form, you'll be authenticated and then taken to the greeting page:
 
-public enum Page {
-    WELCOME, // a reception page. Also later mapped to '/'
-    HOME(true), //
-    LOGOUT,
-    LOGIN,
-    SLASH_ROOT("/", WELCOME.getView());
-    private String url;
-    private String view;
-    private boolean secured;
+![The secured greeting page](images/greeting.png)
 
-    Page() {
-        String name = name().toLowerCase();
-        setup(name, name, false);
-    }
+If you decide to click on the "logout" link, your authentication will be revoked and you'll be taken back to the home page where you'll need to login again before seeing the greeting page.
 
-    Page(boolean secured) {
-        String name = name().toLowerCase();
-        setup(name, name, secured);
-    }
-
-    Page(String url, String view) {
-        setup(url, view, false);
-    }
-
-    public static Set<Page> getSecurePages() {
-        Set<Page> pagesSet = new HashSet<Page>();
-        for (Page p : Page.values())
-            if (p.isSecured()) pagesSet.add(p);
-        return pagesSet;
-    }
-
-    public static Collection<Page> getInsecurePages() {
-        Set<Page> pagesSet = new HashSet<Page>();
-        for (Page p : Page.values())
-            if (!p.isSecured()) pagesSet.add(p);
-        return pagesSet;
-    }
-
-    public boolean isSecured() {
-        return this.secured;
-    }
-
-    public String getView() {
-        return this.view;
-    }
-
-    public String getUrl() {
-        return this.url;
-    }
-
-    private void setup(String u, String view, boolean secured) {
-        if (!u.startsWith("/")) {
-            u = '/' + u;
-        }
-        this.url = u;
-        this.secured = secured;
-        this.view = view;
-    }
-}
-
-```
-
-<a name="initial"></a>
-Configuring a Spring Security Login Form 
-----------------
-
-Let's look now at our Spring Security configuration class that is `@Import`'ed into the `WebSecurityConfiguration` class. The class has the Spring Security `@EnableWebSecurity` annotation, and extends `WebSecurityConfigurerAdapter`. This base-class provides several no-op base methods and a fluent builder-style API that can be used to configure Spring Security.
-
-We will do three things in this class (`src/main/java/hello/WebSecurityConfiguration`):
- * configure users and roles
- * protect certain resource URLs behind a login form
- * enable logout functionality
+Summary
+-------
+Congratulations! You have developed a simple web application that is secured with Spring Security.
 
 
-```java
-package hello;
-
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.AuthenticationRegistry;
-import org.springframework.security.config.annotation.web.*;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.logout.LogoutHandler;
-
-import javax.servlet.http.*;
-
-@Configuration
-@EnableWebSecurity
-public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
-
-    private static final String USER_ROLE = "USER";
-    private static final String ADMIN_ROLE = "ADMIN";
-
-    @Override
-    protected void configure(HttpConfigurator http) throws Exception {
-
-        // cordon off resources by URL
-        ExpressionUrlAuthorizations expressionUrlAuthorizations = http.authorizeUrls();
-
-        for (Page securePage : Page.getSecurePages())
-            expressionUrlAuthorizations.antMatchers(securePage.getUrl()).hasRole(USER_ROLE);
-
-        for (Page insecurePage : Page.getInsecurePages())
-            expressionUrlAuthorizations.antMatchers(insecurePage.getUrl()).permitAll();
-
-        // login
-        http.formLogin()
-                .defaultSuccessUrl(Page.HOME.getUrl())
-                .permitAll();  // set permitAll for all URLs associated with Form Login
-
-        // logout
-        LogoutHandler logoutHandler = new LogoutHandler() {
-            @Override
-            public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-                if (null != authentication) {
-                    System.out.println(String.format("logging the user ('%s') out!", "" + authentication.getName()));
-                }
-            }
-        };
-        http.logout()
-                .logoutSuccessUrl(Page.WELCOME.getUrl())
-                .addLogoutHandler(logoutHandler);
-    }
-
-    @Override
-    protected void registerAuthentication(AuthenticationRegistry registry) throws Exception {
-        registry.inMemoryAuthentication()
-                .withUser("user").password("password").roles(USER_ROLE).and()
-                .withUser("admin").password("password").roles(USER_ROLE, ADMIN_ROLE);
-    }
-}
-
-```
-
-We establish that our *secure* pages should be accessible to anyone, and our *insecure* pages should be accessible only to users of the application that have the role `USER_ROLE`. This check will be performed by consulting the authentication registry that we create in the `registerAuthentication` callback method. 
-
-We also want any user context to be completely and safely destroyed upon logout, so we let Spring Security handle this for us with the `logout()` method on the `http` instance. 
-
-The Login Form View
-----
-Let's first look at the HTML view for our login form (`src/main/resources/template/login.html`):
-```
-<!DOCTYPE html>
-<html
-   xmlns="http://www.w3.org/1999/xhtml" 
-   xmlns:th="http://www.thymeleaf.org" 
-   xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<head><title>Spring Security Example </title></head>
-<body>
-
-<form action="/login" method="post">
-    <div><label> User Name : <input type="text" name="username"/> </label></div>
-    <div><label> Password: <input type="password" name="password"/> </label></div>
-    <div><input type="submit" value="Sign In"/></div>
-</form>
-
-</body>
-</html>
-```
-
-The form is plain but the key ingredients are there: Spring Security is expecting a `username` and a `password` attribute to be `POST`'d to the `/login` endpoint in order to handle authentication requests. We could specify what request parameters are to be expected in our security configuration above. 
-
-Working with the current Authentication
-----
-When a user is successfully authenticated, he is shown the `src/main/resources/templates/home.html` template, which simply displays some information about the currently authenticated user using the Spring Security *dialect* for Thymeleaf. The dialect installs support for a custom Thymeleaf XML namespace that can be used in our HTML markup, `sec:`. Let's look at the template:
-
-```
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<head>
-    <title>Spring Security Example
-    </title>
-</head>
-<body>
-
-
-<DIV><a th:href="@{/logout}">Sign Out</a></DIV>
-
-<h1> Ohai!</h1>
-
-<P> Welcome to the secret page of this application. </P>
-
-<div sec:authorize="hasRole('ROLE_ADMIN')">
-   <p> This content is only shown to administrators.</p>
-</div>
-
-<div sec:authorize="hasRole('ROLE_USER')">
-   <p> This content is to shown to *all* authenticated users.</p>
-</div>
-
-<div>
-    <strong>Logged-in user</strong>: <span sec:authentication="name">Bob</span> <br/>
-
-    <strong>Roles</strong>: <span sec:authentication="principal.authorities">[ROLE_USER, ...]</span>
-</div>
-</body>
-</html>
-```
-
-There's a link at the top of the page to the URL `/logout` that is processed by Spring Security and that cleans up any user context associated with the current `Authentication`, effectively signing the user out of the application.
-
-We use the `sec:authorize` tag to evaluate an authorization expression and - if the expression returns true - render the tag's body. We use the `sec:authentication` tag to dereference properties of the current Spring Security `Authentication` object using the Spring Security Expression language and then emit the resulting values into the markup.
-
-Related Resources
------------------
-There's a lot more to working with social APIs than simply fetching a user's name and friends. You can continue your exploration of Twitter, Facebook, and other APIs with the following Getting Started guides:
-
-* [Accessing Facebook Data](../gs-accessing-facebook)
-* Authenticating with Twitter
-* Authenticating with Facebook
-
+[zip]: https://github.com/springframework-meta/gs-accessing-facebook/archive/master.zip
+[u-war]: /understanding/war
+[u-tomcat]: /understanding/tomcat
+[u-application-context]: /understanding/application-context
+[`SpringApplication`]: http://static.springsource.org/spring-bootstrap/docs/0.5.0.BUILD-SNAPSHOT/javadoc-api/org/springframework/bootstrap/SpringApplication.html
+[`@Component`]: http://static.springsource.org/spring/docs/current/javadoc-api/org/springframework/stereotype/Component.html
+[`@EnableAutoConfiguration`]: http://static.springsource.org/spring-bootstrap/docs/0.5.0.BUILD-SNAPSHOT/javadoc-api/org/springframework/bootstrap/context/annotation/SpringApplication.html
+[`DispatcherServlet`]: http://static.springsource.org/spring/docs/current/javadoc-api/org/springframework/web/servlet/DispatcherServlet.html
