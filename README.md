@@ -1,15 +1,14 @@
-# Getting Started: Creating a Login Page
+# Getting Started: Securing a Web Application
 
-What You'll Build
+What you'll build
 -----------------
 
-This guide walks you through creating a simple web application that has resources that are protected with Spring Security and require login through a login form.
+This guide walks you through creating a simple web application with resources that are protected by Spring Security. The application requires the user to log in through a login form.
 
-What You'll Need
+What you'll need
 ----------------
 
 - About 15 minutes
-- A favorite text editor or IDE
  - A favorite text editor or IDE
  - [JDK 6][jdk] or later
  - [Maven 3.0][mvn] or later
@@ -80,11 +79,6 @@ In a project directory of your choosing, create the following subdirectory struc
             <groupId>org.thymeleaf</groupId>
             <artifactId>thymeleaf-spring3</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.thymeleaf.extras</groupId>
-            <artifactId>thymeleaf-extras-springsecurity3</artifactId>
-            <version>2.0.0</version>
-        </dependency>
     </dependencies>
 
     <properties>
@@ -136,11 +130,12 @@ TODO: mention that we're using Spring Bootstrap's [_starter POMs_](../gs-bootstr
 
 Note to experienced Maven users who are unaccustomed to using an external parent project: you can take it out later, it's just there to reduce the amount of code you have to write to get started.
 
-### Create an unsecured web application
+Create an unsecured web application
+-----------------------------------
 
-Before you can apply security to a web application, you'll need a web application to secure. The steps in this section will walk you through creating a very simple web application. Then you'll secure it with Spring Security in the next section.
+Before you can apply security to a web application, you need a web application to secure. The steps in this section walk you through creating a very simple web application. Then you secure it with Spring Security in the next section.
 
-The web application will include two simple views: A home page and a "Hello World" page. The home page is defined in the following Thymeleaf template:
+The web application includes two simple views: a home page and a "Hello World" page. The home page is defined in the following Thymeleaf template:
 
 `src/main/resources/templates/home.html`
 ```html
@@ -174,7 +169,7 @@ As you can see, this simple view include a link to the page at "/hello". That is
 </html>
 ```
 
-The web application will be based on Spring MVC. Therefore, you'll need to configure Spring MVC and setup view controllers to expose these templates. Here's a configuration class for configuring Spring MVC in the application.
+The web application is based on Spring MVC. Thus you need to configure Spring MVC and set up view controllers to expose these templates. Here's a configuration class for configuring Spring MVC in the application.
 
 `src/main/java/hello/MvcConfig.java`
 ```java
@@ -200,19 +195,19 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 }
 ```
 
-The `@EnableWebMvc` annotation configures much of Spring MVC. Meanwhile, the `addViewControllers()` method (overriding the method of the same name in `WebMvcConfigurerAdapter`) adds four view controllers. Two of the view controllers reference the view whose name is "home" (defined in `home.html`) and another references the view named "hello" (defined in `hello.html`). The fourth view controller references another view named "login". You'll create that view in the next section.
+The `@EnableWebMvc` annotation configures much of Spring MVC. Meanwhile, the `addViewControllers()` method (overriding the method of the same name in `WebMvcConfigurerAdapter`) adds four view controllers. Two of the view controllers reference the view whose name is "home" (defined in `home.html`), and another references the view named "hello" (defined in `hello.html`). The fourth view controller references another view named "login". You'll create that view in the next section.
 
-At this point, you could jump ahead to the _[Run the application](#run)_ section and run the application. It will work near-perfectly (the logout link won't work, but otherwise it's a functioning Spring MVC application).
+At this point, you could jump ahead to the _[Run the application](#run)_ section and run the application. The logout link won't work, but otherwise it's a functioning Spring MVC application.
 
-With the base simple web application created, now it's time to add security to it.
+With the base simple web application created, you can add security to it.
 
 <a name="initial"></a>
-Setup Spring Security
+Set up Spring Security
 ---------------------
 
-Suppose that you want to prevent unauthorized users from viewing the greeting page at "/hello". As it is now, if a user clicks the link on the home page, they'll be shown the greeting with no barriers to stop them. Therefore, you'll need to add a barrier that forces the user to sign in before seeing that page.
+Suppose that you want to prevent unauthorized users from viewing the greeting page at "/hello". As it is now, if users click the link on the home page, they see the greeting with no barriers to stop them. You need to add a barrier that forces the user to sign in before seeing that page.
 
-To do that, you'll need to configure Spring Security in the application. Here's a security configuration that will ensure that only authenticated users can see the secret greeting:
+You do that by configuring Spring Security in the application. Here's a security configuration that ensures that only authenticated users can see the secret greeting:
 
 `src/main/java/hello/WebSecurityConfig.java`
 ```java
@@ -248,13 +243,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 The `WebSecurityConfig` class is annotated with `@EnableWebSecurity` to enable Spring Security's web security support. It also extends `WebSecurityConfigurerAdapter` and overrides a couple of its methods to set some specifics of the web security configuration.
 
-The `configure()` method defines which URL paths should be secured and which should not. Specifically, the "/hello" path is configured to require that the user have "USER" role. If not then it could mean that the user hasn't signed in yet and the user will be automatically taken to the login page. Meanwhile, the "/**" path (using Ant-style wildcarding to indicate all paths not previously constrained) is configured to permit access to all users, authenticated or not. 
+The `configure()` method defines which URL paths should be secured and which should not.Specifically, the "/hello" path is configured to require that the user have "USER" role.If not, it could mean that the user hasn't signed in yet and will be automatically taken to the login page. Meanwhile, the "/**" path (using Ant-style wildcarding to indicate all paths not previously constrained) is configured to permit access to all users, authenticated or not. 
 
-THe `configure()` method goes on to indicate that after a successful login the user's browser should be redirected to "/hello". And, if the user logs out, then they should be redirected to "/".
+THe `configure()` method goes on to indicate that after a successful login the user's browser is redirected to "/hello". When logging out, the user is redirected to "/".
 
 As for the `registerAuthentication()` method, it sets up an in-memory user store with a single user. That user is given a username of "user", a password of "password", and a role of "USER".
 
-All that's left to do is create the login page. There's already a view controller for the "login" view, so you'll only need to create the login view itself:
+All that's left to do is create the login page. There's already a view controller for the "login" view, so you only need to create the login view itself:
 
 `src/main/resources/templates/login.html`
 ```html
@@ -306,7 +301,7 @@ public class Application {
 
 The `main()` method defers to the [`SpringApplication`][] helper class, providing `Application.class` as an argument to its `run()` method. This tells Spring to read the annotation metadata from `Application` and to manage it as a component in the _[Spring application context][u-application-context]_.
 
-The `@ComponentScan` annotation tells Spring to search recursively through the `hello` package and its children for classes marked directly or indirectly with Spring's [`@Component`][] annotation. This directive ensures that Spring finds and registers the `WebConfig` and `WebSecurityConfig`, because they are marked with `@Configuration`, which in turn is a kind of `@Component` annotation. In effect, those configuration classes will also be used to configure Spring.
+The `@ComponentScan` annotation tells Spring to search recursively through the `hello` package and its children for classes marked directly or indirectly with Spring's [`@Component`][] annotation. This directive ensures that Spring finds and registers the `WebConfig` and `WebSecurityConfig`, because they are marked with `@Configuration`, which in turn is a kind of `@Component` annotation. In effect, those configuration classes are also used to configure Spring.
 
 The [`@EnableAutoConfiguration`][] annotation switches on reasonable default behaviors based on the content of your classpath. For example, because the application depends on the embeddable version of Tomcat (tomcat-embed-core.jar), a Tomcat server is set up and configured with reasonable defaults on your behalf. And because the application also depends on Spring MVC (spring-webmvc.jar), a Spring MVC [`DispatcherServlet`][] is configured and registered for you — no `web.xml` necessary! Auto-configuration is a powerful, flexible mechanism. See the [API documentation][`@EnableAutoConfiguration`] for further details.
 
@@ -353,19 +348,19 @@ $ java -jar target/gs-securing-web-0.1.0.jar
 ... app starts up ...
 ```
 
-Once the application starts up, point your browser to http://localhost:8080. You should be greeted by the home page:
+Once the application starts up, point your browser to http://localhost:8080. You should see the home page:
 
 ![The application's home page](images/home.png)
 
-When you click on the link, it should attempt to take you to the greeting page at `/hello`. But because that page is secured and you have not yet logged in, it will instead take you to the login page:
+When you click on the link, it attempts to take you to the greeting page at `/hello`. But because that page is secured and you have not yet logged in, it takes you to the login page:
 
 ![The login page](images/login.png)
 
-At the login page, you can sign in as the test user by entering "user" and "password" for the username and password fields, respectively. Once you submit the login form, you'll be authenticated and then taken to the greeting page:
+At the login page, sign in as the test user by entering "user" and "password" for the username and password fields, respectively. Once you submit the login form, you are authenticated and then taken to the greeting page:
 
 ![The secured greeting page](images/greeting.png)
 
-If you decide to click on the "logout" link, your authentication will be revoked and you'll be taken back to the home page where you'll need to login again before seeing the greeting page.
+If you click on the "logout" link, your authentication is revoked, and you are returned to the home page where you'll need to log in again before seeing the greeting page.
 
 Summary
 -------
