@@ -2,10 +2,12 @@
 
 # Getting Started: Securing a Web Application
 
+
 What you'll build
 -----------------
 
 This guide walks you through creating a simple web application with resources that are protected by Spring Security. The application requires the user to log in through a login form.
+
 
 What you'll need
 ----------------
@@ -14,7 +16,7 @@ What you'll need
  - <@prereq_editor_jdk_buildtools/>
 
 
-## <@how_to_complete_this_guide/>
+## <@how_to_complete_this_guide jump_ahead='Set up Spring Security'/>
 
 
 <a name="scratch"></a>
@@ -80,6 +82,7 @@ All that's left to do is create the login page. There's already a view controlle
 
 As you can see, this Thymeleaf template simply presents a form that captures a username and password and posts them to "/login". As configured, Spring Security provides a filter that intercepts that request and authenticates the user.
 
+
 Make the application executable
 -------------------------------
 
@@ -105,7 +108,7 @@ Run the application
 Now you can run the application from the jar as well, and distribute that as an executable artifact:
 
 ```sh
-$ java -jar target/gs-securing-web-0.1.0.jar
+$ java -jar target/${project_id}-0.1.0.jar
 
 ... app starts up ...
 ```
@@ -130,7 +133,6 @@ Summary
 Congratulations! You have developed a simple web application that is secured with Spring Security.
 
 
-[zip]: https://github.com/springframework-meta/gs-securing-web/archive/master.zip
 [u-war]: /understanding/war
 [u-tomcat]: /understanding/tomcat
 [u-application-context]: /understanding/application-context
