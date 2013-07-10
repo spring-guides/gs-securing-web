@@ -64,7 +64,7 @@ In a project directory of your choosing, create the following subdirectory struc
 
     <groupId>org.springframework</groupId>
     <artifactId>gs-securing-web-initial</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.1.0</version>
 
     <parent>
         <groupId>org.springframework.bootstrap</groupId>
@@ -222,18 +222,19 @@ You do that by configuring Spring Security in the application. Here's a security
 package hello;
 
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.ExpressionUrlAuthorizations;
-import org.springframework.security.config.annotation.web.HttpConfiguration;
-import org.springframework.security.config.annotation.web.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
+import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
-    protected void configure(HttpConfiguration http) throws Exception {
-        ExpressionUrlAuthorizations expressionUrlAuthorizations = http.authorizeUrls();
+    protected void configure(HttpSecurity http) throws Exception {
+        ExpressionUrlAuthorizationConfigurer<HttpSecurity> expressionUrlAuthorizations = http.authorizeUrls();
         expressionUrlAuthorizations.antMatchers("/hello").hasRole("USER");
         expressionUrlAuthorizations.antMatchers("/**").permitAll();
 
@@ -354,7 +355,7 @@ Run the application
 Now you can run the application from the jar as well, and distribute that as an executable artifact:
 
 ```sh
-$ java -jar target/gs-securing-web-0.1.0.jar
+$ java -jar target/gs-securing-web-complete-0.1.0.jar
 
 ... app starts up ...
 ```

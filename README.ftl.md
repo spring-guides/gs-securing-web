@@ -108,7 +108,7 @@ Run the application
 Now you can run the application from the jar as well, and distribute that as an executable artifact:
 
 ```sh
-$ java -jar target/${project_id}-0.1.0.jar
+$ java -jar target/${project_id}-complete-0.1.0.jar
 
 ... app starts up ...
 ```
