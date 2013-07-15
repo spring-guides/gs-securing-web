@@ -351,12 +351,13 @@ Now run the following to produce a single executable JAR file containing all nec
 <a name="run"></a>
 Run the application
 -------------------
+Run your application with `java -jar` at the command line:
 
-Now you can run the application from the jar as well, and distribute that as an executable artifact:
+    java -jar target/gs-securing-web-0.1.0.jar
 
-```sh
-$ java -jar target/gs-securing-web-complete-0.1.0.jar
 
+
+```
 ... app starts up ...
 ```
 
