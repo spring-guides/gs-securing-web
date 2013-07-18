@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.springframework</groupId>
-    <artifactId>gs-securing-web-initial</artifactId>
+    <artifactId>gs-securing-web</artifactId>
     <version>0.1.0</version>
 
     <parent>
