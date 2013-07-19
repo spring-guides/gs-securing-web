@@ -67,19 +67,19 @@ In a project directory of your choosing, create the following subdirectory struc
     <version>0.1.0</version>
 
     <parent>
-        <groupId>org.springframework.bootstrap</groupId>
-        <artifactId>spring-bootstrap-starters</artifactId>
+        <groupId>org.springframework.zero</groupId>
+        <artifactId>spring-starter-parent</artifactId>
         <version>0.5.0.BUILD-SNAPSHOT</version>
     </parent>
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.bootstrap</groupId>
-            <artifactId>spring-bootstrap-web-starter</artifactId>
+            <groupId>org.springframework.zero</groupId>
+            <artifactId>spring-starter-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-javaconfig</artifactId>
+            <groupId>org.springframework.zero</groupId>
+            <artifactId>spring-starter-security</artifactId>
         </dependency>
         <dependency>
             <groupId>org.thymeleaf</groupId>
@@ -94,8 +94,8 @@ In a project directory of your choosing, create the following subdirectory struc
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
+                <groupId>org.springframework.zero</groupId>
+                <artifactId>spring-package-maven-plugin</artifactId>
             </plugin>
         </plugins>
     </build>
@@ -227,7 +227,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
-import org.springframework.security.config.annotation.web.configurers.FormLoginConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -292,8 +291,8 @@ Although it is possible to package this service as a traditional _web applicatio
 ```java
 package hello;
 
+import org.springframework.autoconfigure.EnableAutoConfiguration;
 import org.springframework.bootstrap.SpringApplication;
-import org.springframework.bootstrap.context.annotation.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
