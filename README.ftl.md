@@ -1,8 +1,5 @@
 <#assign project_id="gs-securing-web">
 
-# Getting Started: Securing a Web Application
-
-
 What you'll build
 -----------------
 
