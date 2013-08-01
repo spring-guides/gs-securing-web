@@ -99,7 +99,7 @@ The [`@EnableAutoConfiguration`][] annotation switches on reasonable default beh
 
 
 <a name="run"></a>
-<@run_the_application/>
+<@run_the_application_with_maven/>
 
 ```
 ... app starts up ...
