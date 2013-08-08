@@ -6,7 +6,7 @@ There's more to application security than what is presented here. You may want t
 
 * [Authenticating a User with LDAP][gs-authenticating-ldap]
 
-[gs-authenticating-ldap]: /guides/gs/authenticating-ldap/content
+[gs-authenticating-ldap]: /guides/gs/authenticating-ldap/
 
 ### Tutorials
 
