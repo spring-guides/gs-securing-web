@@ -1,10 +1,10 @@
 <#assign project_id="gs-securing-web">
+This guide walks you through creating a simple web application with resources that are protected by Spring Security.
 
 What you'll build
 -----------------
 
-This guide walks you through creating a simple web application with resources that are protected by Spring Security. The application requires the user to log in through a login form.
-
+You'll build a simple Spring MVC application that secures the page with a login form backed a fixed list of users.
 
 What you'll need
 ----------------

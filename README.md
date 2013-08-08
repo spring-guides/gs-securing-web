@@ -1,9 +1,9 @@
+This guide walks you through creating a simple web application with resources that are protected by Spring Security.
 
 What you'll build
 -----------------
 
-This guide walks you through creating a simple web application with resources that are protected by Spring Security. The application requires the user to log in through a login form.
-
+You'll build a simple Spring MVC application that secures the page with a login form backed a fixed list of users.
 
 What you'll need
 ----------------
@@ -39,7 +39,7 @@ To **skip the basics**, do the following:
 Set up the project
 ------------------
 
-First you set up a basic build script. You can use any build system you like when building apps with Spring, but the code you need to work with [Maven](https://maven.apache.org) and [Gradle](http://gradle.org) is included here. If you're not familiar with either, refer to [Building Java Projects with Maven](/guides/gs/maven/) or [Building Java Projects with Gradle](/guides/gs/gradle/).
+First you set up a basic build script. You can use any build system you like when building apps with Spring, but the code you need to work with [Maven](https://maven.apache.org) and [Gradle](http://gradle.org) is included here. If you're not familiar with either, refer to [Building Java Projects with Maven](/guides/gs/maven) or [Building Java Projects with Gradle](/guides/gs/gradle/).
 
 ### Create the directory structure
 
