@@ -125,8 +125,8 @@ Summary
 Congratulations! You have developed a simple web application that is secured with Spring Security.
 
 
-[u-war]: /understanding/war
-[u-tomcat]: /understanding/tomcat
+[u-war]: /understanding/WAR
+[u-tomcat]: /understanding/Tomcat
 [u-application-context]: /understanding/application-context
 [`SpringApplication`]: http://static.springsource.org/spring-bootstrap/docs/0.5.0.BUILD-SNAPSHOT/javadoc-api/org/springframework/bootstrap/SpringApplication.html
 [`@Component`]: http://static.springsource.org/spring/docs/current/javadoc-api/org/springframework/stereotype/Component.html
