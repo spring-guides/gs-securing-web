@@ -19,5 +19,5 @@ There's more to application security than what is presented here. You may want t
 * [REST][u-rest]
 * [JSON][u-json]
 
-<@u_rest/>
-<@u_json/>
+[u-rest]: /understanding/REST
+[u-json]: /understanding/JSON
