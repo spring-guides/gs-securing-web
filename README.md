@@ -26,7 +26,7 @@ To **start from scratch**, move on to [Set up the project](#scratch).
 
 To **skip the basics**, do the following:
 
- - [Download][zip] and unzip the source repository for this guide, or clone it using [git][u-git]:
+ - [Download][zip] and unzip the source repository for this guide, or clone it using [Git][u-git]:
 `git clone https://github.com/springframework-meta/gs-securing-web.git`
  - cd into `gs-securing-web/initial`.
  - Jump ahead to [Set up Spring Security](#initial).
