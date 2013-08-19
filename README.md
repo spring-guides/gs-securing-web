@@ -1,9 +1,9 @@
-This guide walks you through creating a simple web application with resources that are protected by Spring Security.
+This guide walks you through the process of creating a simple web application with resources that are protected by Spring Security.
 
 What you'll build
 -----------------
 
-You'll build a simple Spring MVC application that secures the page with a login form backed a fixed list of users.
+You'll build a Spring MVC application that secures the page with a login form backed by a fixed list of users.
 
 What you'll need
 ----------------
@@ -269,6 +269,7 @@ The `@ComponentScan` annotation tells Spring to search recursively through the `
 
 The [`@EnableAutoConfiguration`][] annotation switches on reasonable default behaviors based on the content of your classpath. For example, because the application depends on the embeddable version of Tomcat (tomcat-embed-core.jar), a Tomcat server is set up and configured with reasonable defaults on your behalf. And because the application also depends on Spring MVC (spring-webmvc.jar), a Spring MVC [`DispatcherServlet`][] is configured and registered for you — no `web.xml` necessary! Auto-configuration is a powerful, flexible mechanism. See the [API documentation][`@EnableAutoConfiguration`] for further details.
 
+### Build an executable JAR
 Now that your `Application` class is ready, you simply instruct the build system to create a single, executable jar containing everything. This makes it easy to ship, version, and deploy the service as an application throughout the development lifecycle, across different environments, and so forth.
 
 Update your Gradle `build.gradle` file's `buildscript` section, so that it looks like this:

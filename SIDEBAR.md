@@ -1,6 +1,6 @@
-### Related Resources
+## Related resources
 
-There's more to application security than what is presented here. You may want to continue your exploration of Spring Security with the following
+There's more to application security than what is presented here. You may want to continue your exploration of Spring Security with the following resources.
 
 ### Getting Started guides
 
