@@ -6,6 +6,9 @@
     </head>
     <body>
         <h1>Hello world!</h1>
-        <div><a th:href="@{/logout}">Sign Out</a></div>
+        <form th:action="@{/logout}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <div><input type="submit" value="Sign Out"/></div>
+        </form>
     </body>
 </html>
