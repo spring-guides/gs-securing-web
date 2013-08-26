@@ -1,6 +1,6 @@
 ## Related resources
 
-There's more to application security than what is presented here. You may want to continue your exploration of Spring Security with the following resources.
+There's more to application security than what is presented here. You may want to continue your exploration with the following resources.
 
 ### Getting Started guides
 
@@ -11,9 +11,13 @@ There's more to application security than what is presented here. You may want t
 ### Tutorials
 
 * [Designing and Implementing RESTful Web Services with Spring][tut-rest]
-* [Hello Spring MVC Security Java Config][hellomvc]
 
 [tut-rest]: /guides/tutorials/rest
+
+### Spring Security
+
+* [Hello Spring MVC Security Java Config][hellomvc]
+
 [hellomvc]: http://static.springsource.org/spring-security/site/docs/3.2.x/guides/hellomvc.html
 
 ### Concepts and technologies
