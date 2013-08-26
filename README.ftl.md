@@ -66,9 +66,9 @@ You do that by configuring Spring Security in the application. Here's a security
 
 The `WebSecurityConfig` class is annotated with `@EnableWebSecurity` to enable Spring Security's web security support. It also extends `WebSecurityConfigurerAdapter` and overrides a couple of its methods to set some specifics of the web security configuration.
 
-The `configure()` method defines which URL paths should be secured and which should not.Specifically, the "/hello" path is configured to require the user to have the USER role.If the user is found not to have the USER role, it could mean that the user hasn't signed in yet and will be automatically taken to the login page, or that the user has not been assigned the USER role. Meanwhile, the "/**" path (using Ant-style wildcarding to indicate all paths not previously constrained) is configured to permit access to all users, authenticated or not. 
+The `configure()` method defines with URL paths should be secured and which should not. Specifically, the "/home" path is configured to not require any authentication. All other paths must be authenticated. 
 
-THe `configure()` method goes on to indicate that after a successful login the user's browser is redirected to "/hello". When logging out, the user is redirected to "/".
+When a user successfully logs in, they will be forwarded to the "/hello" path. There is a custom "/login" page specified by `loginPage()`, and everyone is allowed to view it.
 
 As for the `registerAuthentication()` method, it sets up an in-memory user store with a single user. That user is given a username of "user", a password of "password", and a role of "USER".
 
