@@ -185,19 +185,24 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        ExpressionUrlAuthorizationConfigurer<HttpSecurity> expressionUrlAuthorizations = http.authorizeUrls();
-        expressionUrlAuthorizations.antMatchers("/hello").hasRole("USER");
-        expressionUrlAuthorizations.antMatchers("/**").permitAll();
-
-        http.formLogin().defaultSuccessUrl("/hello");
-        http.logout().logoutSuccessUrl("/");
+        http
+            .authorizeRequests()
+                .antMatchers("/home").permitAll()
+                .anyRequest().authenticated()
+                .and()
+            .formLogin()
+                .defaultSuccessUrl("/hello")
+                .loginPage("/login")
+                .permitAll()
+                .and()
+            .logout()
+                .permitAll();
     }
 
     @Override
@@ -230,6 +235,7 @@ All that's left to do is create the login page. There's already a view controlle
         <form th:action="@{/login}" method="post">
             <div><label> User Name : <input type="text" name="username"/> </label></div>
             <div><label> Password: <input type="password" name="password"/> </label></div>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <div><input type="submit" value="Sign In"/></div>
         </form>
     </body>
