@@ -47,7 +47,7 @@ The web application is based on Spring MVC. Thus you need to configure Spring MV
 
     <@snippet path="src/main/java/hello/MvcConfig.java" prefix="initial"/>
 
-The `@EnableWebMvc` annotation configures much of Spring MVC. Meanwhile, the `addViewControllers()` method (overriding the method of the same name in `WebMvcConfigurerAdapter`) adds four view controllers. Two of the view controllers reference the view whose name is "home" (defined in `home.html`), and another references the view named "hello" (defined in `hello.html`). The fourth view controller references another view named "login". You'll create that view in the next section.
+The `addViewControllers()` method (overriding the method of the same name in `WebMvcConfigurerAdapter`) adds four view controllers. Two of the view controllers reference the view whose name is "home" (defined in `home.html`), and another references the view named "hello" (defined in `hello.html`). The fourth view controller references another view named "login". You'll create that view in the next section.
 
 At this point, you could jump ahead to the _[Run the application](#run)_ section and run the application. The logout link won't work, but otherwise it's a functioning Spring MVC application.
 
@@ -105,7 +105,7 @@ The [`@EnableAutoConfiguration`][] annotation switches on reasonable default beh
 ... app starts up ...
 ```
 
-Once the application starts up, point your browser to http://localhost:8080. You should see the home page:
+Once the application starts up, point your browser to [http://localhost:8080](http://localhost:8080). You should see the home page:
 
 ![The application's home page](images/home.png)
 
