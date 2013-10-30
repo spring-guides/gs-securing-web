@@ -82,8 +82,8 @@ repositories {
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web:0.5.0.M4")
-    compile("org.springframework.boot:spring-boot-starter-security:0.5.0.M4")
+    compile("org.springframework.boot:spring-boot-starter-web:0.5.0.M5")
+    compile("org.springframework.boot:spring-boot-starter-security:0.5.0.M5")
     compile("org.thymeleaf:thymeleaf-spring3:2.0.16")
     testCompile("junit:junit:4.11")
 }
