@@ -82,8 +82,8 @@ repositories {
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web:0.5.0.M5")
-    compile("org.springframework.boot:spring-boot-starter-security:0.5.0.M5")
+    compile("org.springframework.boot:spring-boot-starter-web:0.5.0.M6")
+    compile("org.springframework.boot:spring-boot-starter-security:0.5.0.M6")
     compile("org.thymeleaf:thymeleaf-spring3:2.0.16")
     testCompile("junit:junit:4.11")
 }
@@ -193,9 +193,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/home").permitAll()
-                .anyRequest().authenticated()
-                .and()
+                .antMatchers("/", "/home").permitAll()
+                .anyRequest().authenticated();
+        http
             .formLogin()
                 .defaultSuccessUrl("/hello")
                 .loginPage("/login")
@@ -206,7 +206,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void registerAuthentication(AuthenticationManagerBuilder authManagerBuilder) throws Exception {
+    protected void configure(AuthenticationManagerBuilder authManagerBuilder) throws Exception {
         authManagerBuilder.inMemoryAuthentication()
                 .withUser("user").password("password").roles("USER");
     }

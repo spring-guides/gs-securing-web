@@ -14,8 +14,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .authorizeRequests()
                 .antMatchers("/", "/home").permitAll()
-                .anyRequest().authenticated()
-                .and()
+                .anyRequest().authenticated();
+        http
             .formLogin()
                 .defaultSuccessUrl("/hello")
                 .loginPage("/login")
@@ -26,7 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void registerAuthentication(AuthenticationManagerBuilder authManagerBuilder) throws Exception {
+    protected void configure(AuthenticationManagerBuilder authManagerBuilder) throws Exception {
         authManagerBuilder.inMemoryAuthentication()
                 .withUser("user").password("password").roles("USER");
     }
