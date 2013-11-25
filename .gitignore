@@ -14,3 +14,4 @@ dependency-reduced-pom.xml
 .gradle
 .idea
 *.iml
+README.html
