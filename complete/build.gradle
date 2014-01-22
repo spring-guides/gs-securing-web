@@ -4,7 +4,7 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:0.5.0.M6")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.0.0.RC1")
     }
 }
 
@@ -24,9 +24,9 @@ repositories {
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web:0.5.0.M6")
-    compile("org.springframework.boot:spring-boot-starter-security:0.5.0.M6")
-    compile("org.thymeleaf:thymeleaf-spring3:2.0.16")
+    compile("org.springframework.boot:spring-boot-starter-web:1.0.0.RC1")
+    compile("org.springframework.boot:spring-boot-starter-security:1.0.0.RC1")
+    compile("org.thymeleaf:thymeleaf-spring4:2.1.2.RELEASE")
     testCompile("junit:junit:4.11")
 }
 
