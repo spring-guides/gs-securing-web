@@ -76,7 +76,7 @@ include::initial/src/main/java/hello/MvcConfig.java[]
 
 The `addViewControllers()` method (overriding the method of the same name in `WebMvcConfigurerAdapter`) adds four view controllers. Two of the view controllers reference the view whose name is "home" (defined in `home.html`), and another references the view named "hello" (defined in `hello.html`). The fourth view controller references another view named "login". You'll create that view in the next section.
 
-At this point, you could jump ahead to the _<<run>>_ section and run the application. The logout link won't work, but otherwise it's a functioning Spring MVC application.
+At this point, you could jump ahead to the _<<run>>_ section and run the application.
 
 With the base simple web application created, you can add security to it.
 
@@ -94,15 +94,15 @@ You do that by configuring Spring Security in the application. Here's a security
 include::complete/src/main/java/hello/WebSecurityConfig.java[]
 ----
 
-The `WebSecurityConfig` class is annotated with `@EnableWebSecurity` to enable Spring Security's web security support. It also extends `WebSecurityConfigurerAdapter` and overrides a couple of its methods to set some specifics of the web security configuration.
+The `WebSecurityConfig` class is annotated with `@EnableWebMvcSecurity` to enable Spring Security's web security support and provide the Spring MVC integration. It also extends `WebSecurityConfigurerAdapter` and overrides a couple of its methods to set some specifics of the web security configuration.
 
-The `configure()` method defines with URL paths should be secured and which should not. Specifically, the "/home" path is configured to not require any authentication. All other paths must be authenticated. 
+The `configure(HttpSecurity)` method defines with URL paths should be secured and which should not. Specifically, the "/" and "/home" paths are configured to not require any authentication. All other paths must be authenticated. 
 
-When a user successfully logs in, they will be forwarded to the "/hello" path. There is a custom "/login" page specified by `loginPage()`, and everyone is allowed to view it.
+When a user successfully logs in, they will be redirected to the previously requested page that requires authentication. There is a custom "/login" page specified by `loginPage()`, and everyone is allowed to view it.
 
-As for the `registerAuthentication()` method, it sets up an in-memory user store with a single user. That user is given a username of "user", a password of "password", and a role of "USER".
+As for the `configure(AuthenticationManagerBuilder)` method, it sets up an in-memory user store with a single user. That user is given a username of "user", a password of "password", and a role of "USER".
 
-All that's left to do is create the login page. There's already a view controller for the "login" view, so you only need to create the login view itself:
+Now we need to create the login page. There's already a view controller for the "login" view, so you only need to create the login view itself:
 
 `src/main/resources/templates/login.html`
 [source,html]
@@ -110,8 +110,17 @@ All that's left to do is create the login page. There's already a view controlle
 include::complete/src/main/resources/templates/login.html[]
 ----
 
-As you can see, this Thymeleaf template simply presents a form that captures a username and password and posts them to "/login". As configured, Spring Security provides a filter that intercepts that request and authenticates the user.
+As you can see, this Thymeleaf template simply presents a form that captures a username and password and posts them to "/login". As configured, Spring Security provides a filter that intercepts that request and authenticates the user. If the user fails to authenticate, the page is redirected to "/login?error" and our page displays the appropriate error message. Upon successfully signing out, our application is sent to "/login?logout" and our page displays the appropriate success message.
 
+Last we need to provide the user a way to display the current username and Sign Out. Update the `hello.html` to say hello to the current user and contain a "Sign Out" form as shown below
+
+`src/main/resources/templates/hello.html`
+[source,html]
+----
+include::complete/src/main/resources/templates/hello.html[]
+----
+
+We display the username by using Spring Security's integration with `HttpServletRequest#getRemoteUser()`. The "Sign Out" form submits a POST to "/logout". Upon successfully logging out it will redirect the user to "/login?logout".
 
 == Make the application executable
 
@@ -153,7 +162,7 @@ At the login page, sign in as the test user by entering "user" and "password" fo
 
 image::images/greeting.png[The secured greeting page]
 
-If you click on the "logout" link, your authentication is revoked, and you are returned to the home page where you'll need to log in again before seeing the greeting page.
+If you click on the "Sign Out" button, your authentication is revoked, and you are returned to the log in page with a message indicating you are logged out.
 
 
 == Summary
