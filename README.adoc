@@ -8,6 +8,7 @@ projects: [spring-security]
 :EnableAutoConfiguration: http://docs.spring.io/spring-boot/docs/{spring_boot_version}/api/org/springframework/boot/autoconfigure/EnableAutoConfiguration.html
 :DispatcherServlet: http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/servlet/DispatcherServlet.html
 :SpringApplication: http://docs.spring.io/spring-boot/docs/{spring_boot_version}/api/org/springframework/boot/SpringApplication.html
+:SpringBootSecurity: http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#boot-features-security
 :toc:
 :icons: font
 :source-highlighter: prettify
@@ -86,7 +87,7 @@ With the base simple web application created, you can add security to it.
 
 Suppose that you want to prevent unauthorized users from viewing the greeting page at "/hello". As it is now, if users click the link on the home page, they see the greeting with no barriers to stop them. You need to add a barrier that forces the user to sign in before seeing that page.
 
-You do that by configuring Spring Security in the application. Here's a security configuration that ensures that only authenticated users can see the secret greeting:
+You do that by configuring Spring Security in the application. If Spring Security is on the classpath, the Spring Boot {SpringBootSecurity}[automatically secures all HTTP endpoints] with "basic" authenticaiton. But you can further customize the security settings. Here's a security configuration that ensures that only authenticated users can see the secret greeting:
 
 `src/main/java/hello/WebSecurityConfig.java`
 [source,java]
