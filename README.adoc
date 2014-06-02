@@ -77,7 +77,7 @@ include::initial/src/main/java/hello/MvcConfig.java[]
 
 The `addViewControllers()` method (overriding the method of the same name in `WebMvcConfigurerAdapter`) adds four view controllers. Two of the view controllers reference the view whose name is "home" (defined in `home.html`), and another references the view named "hello" (defined in `hello.html`). The fourth view controller references another view named "login". You'll create that view in the next section.
 
-At this point, you could jump ahead to the _<<run>>_ section and run the application.
+At this point, you could jump ahead to _<<run_the_app>>_ and run the application without having to login to anything.
 
 With the base simple web application created, you can add security to it.
 
@@ -123,6 +123,7 @@ include::complete/src/main/resources/templates/hello.html[]
 
 We display the username by using Spring Security's integration with `HttpServletRequest#getRemoteUser()`. The "Sign Out" form submits a POST to "/logout". Upon successfully logging out it will redirect the user to "/login?logout".
 
+[[run_the_app]]
 == Make the application executable
 
 Although it is possible to package this service as a traditional _web application archive_ or link:/understanding/WAR[WAR] file for deployment to an external application server, the simpler approach demonstrated below creates a _standalone application_. You package everything in a single, executable JAR file, driven by a good old Java `main()` method. And along the way, you use Spring's support for embedding the link:/understanding/Tomcat[Tomcat] servlet container as the HTTP runtime, instead of deploying to an external instance.
@@ -158,6 +159,8 @@ image::images/home.png[The application's home page]
 When you click on the link, it attempts to take you to the greeting page at `/hello`. But because that page is secured and you have not yet logged in, it takes you to the login page:
 
 image::images/login.png[The login page]
+
+NOTE: If you jumped down here with the unsecured version, then you won't see this login page. Feel free to back up and write the rest of the security-based code.
 
 At the login page, sign in as the test user by entering "user" and "password" for the username and password fields, respectively. Once you submit the login form, you are authenticated and then taken to the greeting page:
 
