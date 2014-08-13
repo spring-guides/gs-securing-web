@@ -25,15 +25,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll();
     }
 
- 	@Configuration
-	protected static class AuthenticationConfiguration extends
-			GlobalAuthenticationConfigurerAdapter {
+    @Configuration
+    protected static class AuthenticationConfiguration extends
+            GlobalAuthenticationConfigurerAdapter {
 
-		@Override
-		public void init(AuthenticationManagerBuilder auth) throws Exception {
+        @Override
+        public void init(AuthenticationManagerBuilder auth) throws Exception {
             auth
-                .inMemoryAuthentication()
-                .withUser("user").password("password").roles("USER");
+                    .inMemoryAuthentication()
+                    .withUser("user").password("password").roles("USER");
         }
 
     }
