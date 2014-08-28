@@ -109,7 +109,7 @@ With Maven this would be an extra entry added to `<dependencies>`:
 <dependencies>
     ...
 include::complete/pom.xml[tag=security]
-    ---
+    ...
 </dependencies>
 ----
 
