@@ -27,7 +27,9 @@ repositories {
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+    // tag::security[]
     compile("org.springframework.boot:spring-boot-starter-security")
+    // end::security[]
     testCompile("junit:junit")
 }
 
