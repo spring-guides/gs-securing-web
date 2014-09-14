@@ -111,7 +111,7 @@ include::complete/src/main/java/hello/WebSecurityConfig.java[]
 
 The `WebSecurityConfig` class is annotated with `@EnableWebMvcSecurity` to enable Spring Security's web security support and provide the Spring MVC integration. It also extends `WebSecurityConfigurerAdapter` and overrides a couple of its methods to set some specifics of the web security configuration.
 
-The `configure(HttpSecurity)` method defines with URL paths should be secured and which should not. Specifically, the "/" and "/home" paths are configured to not require any authentication. All other paths must be authenticated. 
+The `configure(HttpSecurity)` method defines which URL paths should be secured and which should not. Specifically, the "/" and "/home" paths are configured to not require any authentication. All other paths must be authenticated.
 
 When a user successfully logs in, they will be redirected to the previously requested page that requires authentication. There is a custom "/login" page specified by `loginPage()`, and everyone is allowed to view it.
 
