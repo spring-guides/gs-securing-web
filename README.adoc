@@ -74,7 +74,7 @@ With the base simple web application created, you can add security to it.
 
 Suppose that you want to prevent unauthorized users from viewing the greeting page at "/hello". As it is now, if users click the link on the home page, they see the greeting with no barriers to stop them. You need to add a barrier that forces the user to sign in before seeing that page.
 
-You do that by configuring Spring Security in the application. If Spring Security is on the classpath, the Spring Boot {SpringBootSecurity}[automatically secures all HTTP endpoints] with "basic" authenticaiton. But you can further customize the security settings. The first thing you need to do is add Spring Security to the classpath. 
+You do that by configuring Spring Security in the application. If Spring Security is on the classpath, the Spring Boot {SpringBootSecurity}[automatically secures all HTTP endpoints] with "basic" authentication. But you can further customize the security settings. The first thing you need to do is add Spring Security to the classpath. 
 
 With Gradle this would be one line in the `dependencies` closure:
 
