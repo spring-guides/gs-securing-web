@@ -188,3 +188,6 @@ If you click on the "Sign Out" button, your authentication is revoked, and you a
 Congratulations! You have developed a simple web application that is secured with Spring Security.
 
 
+
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/footer.adoc[]
+
