@@ -108,7 +108,7 @@ Here's a security configuration that ensures that only authenticated users can s
 include::complete/src/main/java/hello/WebSecurityConfig.java[]
 ----
 
-The `WebSecurityConfig` class is annotated with `@EnableWebMvcSecurity` to enable Spring Security's web security support and provide the Spring MVC integration. It also extends `WebSecurityConfigurerAdapter` and overrides a couple of its methods to set some specifics of the web security configuration.
+The `WebSecurityConfig` class is annotated with `@EnableWebSecurity` to enable Spring Security's web security support and provide the Spring MVC integration. It also extends `WebSecurityConfigurerAdapter` and overrides a couple of its methods to set some specifics of the web security configuration.
 
 The `configure(HttpSecurity)` method defines which URL paths should be secured and which should not. Specifically, the "/" and "/home" paths are configured to not require any authentication. All other paths must be authenticated.
 
