@@ -46,7 +46,7 @@ The web application includes two simple views: a home page and a "Hello World" p
 include::initial/src/main/resources/templates/home.html[]
 ----
 
-As you can see, this simple view include a link to the page at "/hello". That is defined in the following Thymeleaf template:
+As you can see, this simple view includes a link to the page "/hello". That is defined in the following Thymeleaf template:
 
 `src/main/resources/templates/hello.html`
 [source,html]
@@ -74,7 +74,7 @@ With the base simple web application created, you can add security to it.
 
 Suppose that you want to prevent unauthorized users from viewing the greeting page at "/hello". As it is now, if users click the link on the home page, they see the greeting with no barriers to stop them. You need to add a barrier that forces the user to sign in before seeing that page.
 
-You do that by configuring Spring Security in the application. If Spring Security is on the classpath, the Spring Boot {SpringBootSecurity}[automatically secures all HTTP endpoints] with "basic" authentication. But you can further customize the security settings. The first thing you need to do is add Spring Security to the classpath. 
+You do that by configuring Spring Security in the application. If Spring Security is on the classpath, then Spring Boot {SpringBootSecurity}[automatically secures all HTTP endpoints] with "basic" authentication. But you can further customize the security settings. The first thing you need to do is add Spring Security to the classpath.
 
 With Gradle this would be one line in the `dependencies` closure:
 
@@ -112,7 +112,7 @@ The `WebSecurityConfig` class is annotated with `@EnableWebSecurity` to enable S
 
 The `configure(HttpSecurity)` method defines which URL paths should be secured and which should not. Specifically, the "/" and "/home" paths are configured to not require any authentication. All other paths must be authenticated.
 
-When a user successfully logs in, they will be redirected to the previously requested page that requires authentication. There is a custom "/login" page specified by `loginPage()`, and everyone is allowed to view it.
+When a user successfully logs in, they will be redirected to the previously requested page that required authentication. There is a custom "/login" page specified by `loginPage()`, and everyone is allowed to view it.
 
 As for the `configureGlobal(AuthenticationManagerBuilder)` method, it sets up an in-memory user store with a single user. That user is given a username of "user", a password of "password", and a role of "USER".
 
