@@ -27,6 +27,7 @@ targetCompatibility = 1.8
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+    compile("org.springframework.boot:spring-boot-starter-web")
     // tag::security[]
     compile("org.springframework.boot:spring-boot-starter-security")
     // end::security[]

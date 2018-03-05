@@ -3,7 +3,7 @@ tags: [security]
 projects: [spring-security]
 ---
 :spring_version: current
-:spring_boot_version: 1.5.10.RELEASE
+:spring_boot_version: 2.0.0.RELEASE
 :DispatcherServlet: http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/servlet/DispatcherServlet.html
 :SpringApplication: http://docs.spring.io/spring-boot/docs/{spring_boot_version}/api/org/springframework/boot/SpringApplication.html
 :SpringBootSecurity: http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#boot-features-security
@@ -62,7 +62,7 @@ The web application is based on Spring MVC. Thus you need to configure Spring MV
 include::initial/src/main/java/hello/MvcConfig.java[]
 ----
 
-The `addViewControllers()` method (overriding the method of the same name in `WebMvcConfigurerAdapter`) adds four view controllers. Two of the view controllers reference the view whose name is "home" (defined in `home.html`), and another references the view named "hello" (defined in `hello.html`). The fourth view controller references another view named "login". You'll create that view in the next section.
+The `addViewControllers()` method (implementing the method of the same name in `WebMvcConfigurer`) adds four view controllers. Two of the view controllers reference the view whose name is "home" (defined in `home.html`), and another references the view named "hello" (defined in `hello.html`). The fourth view controller references another view named "login". You'll create that view in the next section.
 
 At this point, you could jump ahead to _<<run_the_app>>_ and run the application without having to login to anything.
 
@@ -114,9 +114,10 @@ The `configure(HttpSecurity)` method defines which URL paths should be secured a
 
 When a user successfully logs in, they will be redirected to the previously requested page that required authentication. There is a custom "/login" page specified by `loginPage()`, and everyone is allowed to view it.
 
-As for the `configureGlobal(AuthenticationManagerBuilder)` method, it sets up an in-memory user store with a single user. That user is given a username of "user", a password of "password", and a role of "USER".
+As for the `userDetailsService()` method, it sets up an in-memory user store with a single user. That user is given a username of "user", a password of "password", and a role of "USER".
 
-Now we need to create the login page. There's already a view controller for the "login" view, so you only need to create the login view itself:
+Now we need to create the login page. There's already a v:wq
+iew controller for the "login" view, so you only need to create the login view itself:
 
 `src/main/resources/templates/login.html`
 [source,html]
