@@ -26,7 +26,8 @@ public class UserService implements UserDetailsService {
 		
 		BCryptPasswordEncoder enc = new BCryptPasswordEncoder();
 		String password = enc.encode( "password" );
-		UserInfo userInfo = new UserInfo( username, password );
+		String role = "ROLE_USER";
+		UserInfo userInfo = new UserInfo( username, password, role );
 		
 		
 		// spring-security フレームワークが処理できる SpringSecurityUser:User:UserDetails を返す。

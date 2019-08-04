@@ -5,8 +5,11 @@ package hello.data.values;
 public class UserInfo {
 	public final String userId;
 	public final String password;
-	public UserInfo( String userId, String password ) {
+	public final String role;
+	
+	public UserInfo( String userId, String password, String role ) {
 		this.userId = userId;
 		this.password = password;
+		this.role = role;
 	}
 }

@@ -8,10 +8,16 @@ import hello.data.values.UserInfo;
 // SpringSecurityUser extends User implements UserDetails
 public class SpringSecurityUser extends User {
 	
+	/** default serial version uid. */
+	private static final long serialVersionUID = 1L;
+	
 	private final UserInfo userInfo;
 
 	public SpringSecurityUser( UserInfo userInfo ) {
-		super( userInfo.userId, userInfo.password, AuthorityUtils.createAuthorityList("ROLE_USER") );
+		super( userInfo.userId, 
+				userInfo.password,
+				AuthorityUtils.createAuthorityList( userInfo.role ) );
+		
 		this.userInfo = userInfo;
 	}
 	
