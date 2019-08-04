@@ -57,4 +57,20 @@ public class ViewController {
 		return "hello";
 	}
 	
+	@RequestMapping("/admin")
+	public String admin() {
+
+		log.info( "view controller を通して {} にアクセス", "admin" );
+		
+		return "page_admin";
+	}
+	
+	@RequestMapping("/user")
+	public String user() {
+
+		log.info( "view controller を通して {} にアクセス", "user" );
+		
+		return "page_user";
+	}
+	
 }

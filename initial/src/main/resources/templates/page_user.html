@@ -6,18 +6,14 @@
 <title>Hello World!</title>
 </head>
 <body>
-	<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+	<h1>■ここは全ユーザ使用可能ページです■</h1>
 	
 	<h2 th:text="${name}"></h2>
 	
 	<h2 th:text="${role}"></h2>
 	
-	<h2>リンク</h2>
-	
-	<ul>
-		<li><a href="#" th:href="@{/admin}">管理者ページ</a>
-		<li><a href="#" th:href="@{/user}">ユーザページ</a>
-	</ul>
+	<a href="#" th:href="@{/home}">&lt;&lt; home.</a>
+	<a href="#" th:href="@{/hello}">&lt;&lt; hello.</a>
 	
 	<form th:action="@{/logout}" method="post">
 		<input type="submit" value="Sign Out" />

@@ -19,59 +19,61 @@ import hello.app.service.UserService;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-    /** @inherit */
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-            .authorizeRequests()
-                .antMatchers("/", "/home").permitAll()
-                .anyRequest().authenticated()
-                
-            .and().formLogin()
-                .loginPage("/login")
-                .usernameParameter( "username" )
-                .passwordParameter( "password" )
-                .permitAll()
-                
-            .and().logout()
-                .permitAll();
-    }
-
-    
-// インメモリのユーザ管理（公式チュートリアル）実装から、
-// 独自のユーザ管理実装に変更。
-//    @Bean
-//    @Override
-//    public UserDetailsService userDetailsService() {
-//    	
-//		UserDetails user = User.withDefaultPasswordEncoder()
-//				.username( "admin" )
-//				.password( "admin" )
-//				.roles( "USER" )
-//				.build();
-//
-//        return new InMemoryUserDetailsManager(user);
-//    }
-    
-    @Configuration
-    protected static class AuthenticationConfiguration
-    extends GlobalAuthenticationConfigurerAdapter {
-    	
-        /** 認証ユーザ情報を取得するサービス */
-        @Autowired
-        UserService service;
-
-        /** @inherit */
-        @Override
-        public void init(AuthenticationManagerBuilder auth) throws Exception {
+	
+	/** @inherit */
+	@Override
+	protected void configure( HttpSecurity http ) throws Exception {
+		http.authorizeRequests()
+				.antMatchers( "/", "/home" ).permitAll()
+				.antMatchers( "/user" ).hasAnyRole( "ADMIN", "OPERATOR",
+						"COMPANY", "SHOP",
+						"HOLE_STAFF", "KITCHIN_STAFF" )
+				.antMatchers( "/admin" ).hasAnyRole( "ADMIN", "OPERATOR" )
+				.anyRequest().authenticated();
+				
+		http.formLogin()
+				.loginPage( "/login" )
+				.usernameParameter( "username" )
+				.passwordParameter( "password" )
+				.permitAll();
+				
+		http.logout()
+				.permitAll();
+	}
+	
+	
+	// インメモリのユーザ管理（公式チュートリアル）実装から、
+	// 独自のユーザ管理実装に変更。
+	// @Bean
+	// @Override
+	// public UserDetailsService userDetailsService() {
+	//
+	// UserDetails user = User.withDefaultPasswordEncoder()
+	// .username( "admin" )
+	// .password( "admin" )
+	// .roles( "USER" )
+	// .build();
+	//
+	// return new InMemoryUserDetailsManager(user);
+	// }
+	
+	@Configuration
+	protected static class AuthenticationConfiguration
+			extends GlobalAuthenticationConfigurerAdapter {
+		
+		/** 認証ユーザ情報を取得するサービス */
+		@Autowired
+		UserService service;
+		
+		/** @inherit */
+		@Override
+		public void init( AuthenticationManagerBuilder auth ) throws Exception {
 			
 			auth.userDetailsService( service )
-				// パスワードの暗号化方式を設定する場合は以下。
-				// ※ デフォルトだと平文になる。
-				.passwordEncoder( new BCryptPasswordEncoder() )
-			;
-			 
-        }
-    }
+					// パスワードの暗号化方式を設定する場合は以下。
+					// ※ デフォルトだと平文になる。
+					.passwordEncoder( new BCryptPasswordEncoder() );
+			
+		}
+	}
 }
