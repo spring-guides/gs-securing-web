@@ -1,5 +1,5 @@
 :spring_version: current
-:spring_boot_version: 2.2.1.RELEASE
+:spring_boot_version: 2.2.2.RELEASE
 :DispatcherServlet: http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/servlet/DispatcherServlet.html
 :SpringApplication: http://docs.spring.io/spring-boot/docs/{spring_boot_version}/api/org/springframework/boot/SpringApplication.html
 :SpringBootSecurity: http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#boot-features-security
@@ -7,174 +7,276 @@
 :icons: font
 :source-highlighter: prettify
 :project_id: gs-securing-web
-This guide walks you through the process of creating a simple web application with resources that are protected by Spring Security.
 
-== What you'll build
+This guide walks you through the process of creating a simple web application with
+resources that are protected by Spring Security.
 
-You'll build a Spring MVC application that secures the page with a login form backed by a fixed list of users.
+== What You Will Build
 
-== What you'll need
+You will build a Spring MVC application that secures the page with a login form that is
+backed by a fixed list of users.
+
+== What You Need
 
 :java_version: 1.8
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/prereq_editor_jdk_buildtools.adoc[]
 
-
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/how_to_complete_this_guide.adoc[]
 
+[[scratch]]
+== Starting with Spring Initializr
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/hide-show-gradle.adoc[]
+For all Spring applications, you should start with the https://start.spring.io[Spring
+Initializr]. The Initializr offers a fast way to pull in all the dependencies you need for
+an application and does a lot of the setup for you. This example needs the Spring Web and
+Thymeleaf dependencies. The following image shows the Initializr set up for this sample
+project:
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/hide-show-maven.adoc[]
+image::images/initializr.png[]
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/hide-show-sts.adoc[]
+NOTE: The preceding image shows the Initializr with Maven chosen as the build tool. You
+can also use Gradle. It also shows values of `com.example` and `securing-web` as the Group
+and Artifact, respectively. You will use those values throughout the rest of this sample.
 
+The following listing shows the `pom.xml` file that is created when you choose Maven:
 
+====
+[source,xml]
+----
+include::initial/pom.xml[]
+----
+====
 
-== Create an unsecured web application
+The following listing shows the `build.gradle` file that is created when you choose Gradle:
 
-Before you can apply security to a web application, you need a web application to secure. The steps in this section walk you through creating a very simple web application. Then you secure it with Spring Security in the next section.
+====
+[source,text]
+----
+include::initial/build.gradle[]
+----
+====
 
-The web application includes two simple views: a home page and a "Hello World" page. The home page is defined in the following Thymeleaf template:
+[[initial]]
+== Create an Unsecured Web Application
 
-`src/main/resources/templates/home.html`
+Before you can apply security to a web application, you need a web application to secure.
+This section walks you through creating a simple web application. Then you will secure it
+with Spring Security in the next section.
+
+The web application includes two simple views: a home page and a "`Hello, World`" page.
+The home page is defined in the following Thymeleaf template (from
+`src/main/resources/templates/home.html`):
+
+====
 [source,html]
 ----
 include::initial/src/main/resources/templates/home.html[]
 ----
+====
 
-As you can see, this simple view includes a link to the page "/hello". That is defined in the following Thymeleaf template:
+This simple view includes a link to the `/hello` page, which is defined in the following
+Thymeleaf template (from `src/main/resources/templates/hello.html`):
 
-`src/main/resources/templates/hello.html`
+====
 [source,html]
 ----
 include::initial/src/main/resources/templates/hello.html[]
 ----
+====
 
-The web application is based on Spring MVC. Thus you need to configure Spring MVC and set up view controllers to expose these templates. Here's a configuration class for configuring Spring MVC in the application.
+The web application is based on Spring MVC. As a result, you need to configure Spring MVC
+and set up view controllers to expose these templates. The following listing (from
+`src/main/java/com/example/securingweb/MvcConfig.java`) shows a class that configures
+Spring MVC in the application:
 
-`src/main/java/hello/MvcConfig.java`
-[source,java,tabsize=2]
+====
+[source,java]
 ----
-include::initial/src/main/java/hello/MvcConfig.java[]
+include::initial/src/main/java/com/example/securingweb/MvcConfig.java[]
 ----
+====
 
-The `addViewControllers()` method (overriding the method of the same name in `WebMvcConfigurer`) adds four view controllers. Two of the view controllers reference the view whose name is "home" (defined in `home.html`), and another references the view named "hello" (defined in `hello.html`). The fourth view controller references another view named "login". You'll create that view in the next section.
+The `addViewControllers()` method (which overrides the method of the same name in
+`WebMvcConfigurer`) adds four view controllers. Two of the view controllers reference
+the view whose name is `home` (defined in `home.html`), and another references the view
+named `hello` (defined in `hello.html`). The fourth view controller references another
+view named `login`. You will create that view in the next section.
 
-At this point, you could jump ahead to _<<run_the_app>>_ and run the application without having to login to anything.
+At this point, you could jump ahead to "`<<run_the_app>>`" and run the application without
+having to log in to anything.
 
-With the base simple web application created, you can add security to it.
-
+Now that you have an unsecured web application, you can add security to it.
 
 [[initial]]
 == Set up Spring Security
 
-Suppose that you want to prevent unauthorized users from viewing the greeting page at "/hello". As it is now, if users click the link on the home page, they see the greeting with no barriers to stop them. You need to add a barrier that forces the user to sign in before seeing that page.
+Suppose that you want to prevent unauthorized users from viewing the greeting page at
+`/hello`. As it is now, if visitors click the link on the home page, they see the greeting
+with no barriers to stop them. You need to add a barrier that forces the visitor to sign
+in before they can see that page.
 
-You do that by configuring Spring Security in the application. If Spring Security is on the classpath, then Spring Boot {SpringBootSecurity}[automatically secures all HTTP endpoints] with "basic" authentication. But you can further customize the security settings. The first thing you need to do is add Spring Security to the classpath.
+You do that by configuring Spring Security in the application. If Spring Security is on
+the classpath, Spring Boot {SpringBootSecurity}[automatically secures all HTTP endpoints]
+with "`basic`" authentication. However, you can further customize the security settings.
+The first thing you need to do is add Spring Security to the classpath.
 
-With Gradle this would be one line in the `dependencies` closure:
+With Gradle, you need to add two lines (one for the application and one for testing) in
+the `dependencies` closure in `build.gradle`, as the following listing shows:
 
-`build.gradle`
-[source,java,tabsize=2]
+====
+[source,java]
 ----
-dependencies {
-    ...
-include::complete/build.gradle[tag=security]
-    ...
-}
+implementation 'org.springframework.boot:spring-boot-starter-security'
+implementation 'org.springframework.security:spring-security-test'
 ----
+====
 
-With Maven this would be an extra entry added to `<dependencies>`:
+The following listing shows the finished `build.gradle` file:
 
-`pom.xml`
+====
+[source,text]
+----
+include::complete/build.gradle[]
+----
+====
+
+With Maven, you need to add two extra entries (one for the application and one for
+testing) to the `<dependencies>` element in `pom.xml`, as the following listing shows:
+
+====
 [source,zml]
 ----
-<dependencies>
-    ...
-include::complete/pom.xml[tag=security]
-    ...
-</dependencies>
+<dependency>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-security</artifactId>
+</dependency>
+<dependency>
+  <groupId>org.springframework.security</groupId>
+  <artifactId>spring-security-test</artifactId>
+  <scope>test</scope>
+</dependency>
 ----
+====
 
-Here's a security configuration that ensures that only authenticated users can see the secret greeting:
+The following listing shows the finished `build.gradle` file:
 
-`src/main/java/hello/WebSecurityConfig.java`
-[source,java,tabsize=2]
+====
+[source,text]
 ----
-include::complete/src/main/java/hello/WebSecurityConfig.java[]
+include::complete/pom.xml[]
 ----
+====
 
-The `WebSecurityConfig` class is annotated with `@EnableWebSecurity` to enable Spring Security's web security support and provide the Spring MVC integration. It also extends `WebSecurityConfigurerAdapter` and overrides a couple of its methods to set some specifics of the web security configuration.
+The following security configuration (from
+`src/main/java/com/example/securingweb/WebSecurityConfig.java`)
+ensures that only authenticated users can see the secret greeting:
 
-The `configure(HttpSecurity)` method defines which URL paths should be secured and which should not. Specifically, the "/" and "/home" paths are configured to not require any authentication. All other paths must be authenticated.
+====
+[source,java]
+----
+include::complete/src/main/java/com/example/securingweb/WebSecurityConfig.java[]
+----
+====
 
-When a user successfully logs in, they will be redirected to the previously requested page that required authentication. There is a custom "/login" page specified by `loginPage()`, and everyone is allowed to view it.
+The `WebSecurityConfig` class is annotated with `@EnableWebSecurity` to enable Spring
+Security's web security support and provide the Spring MVC integration. It also extends
+`WebSecurityConfigurerAdapter` and overrides a couple of its methods to set some specifics
+of the web security configuration.
 
-As for the `userDetailsService()` method, it sets up an in-memory user store with a single user. That user is given a username of "user", a password of "password", and a role of "USER".
+The `configure(HttpSecurity)` method defines which URL paths should be secured and which
+should not. Specifically, the `/` and `/home` paths are configured to not require any
+authentication. All other paths must be authenticated.
 
-Now we need to create the login page. There's already a view controller for the "login" view, so you only need to create the login view itself:
+When a user successfully logs in, they are redirected to the previously requested page
+that required authentication. There is a custom `/login` page (which is specified by
+`loginPage()`), and everyone is allowed to view it.
 
-`src/main/resources/templates/login.html`
+The `userDetailsService()` method sets up an in-memory user store with a single user. That
+user is given a user name of `user`, a password of `password`, and a role of `USER`.
+
+Now you need to create the login page. There is already a view controller for the `login`
+view, so you need only to create the login view itself, as the following listing (from
+`src/main/resources/templates/login.html`) shows:
+
+====
 [source,html]
 ----
 include::complete/src/main/resources/templates/login.html[]
 ----
+====
 
-As you can see, this Thymeleaf template simply presents a form that captures a username and password and posts them to "/login". As configured, Spring Security provides a filter that intercepts that request and authenticates the user. If the user fails to authenticate, the page is redirected to "/login?error" and our page displays the appropriate error message. Upon successfully signing out, our application is sent to "/login?logout" and our page displays the appropriate success message.
+This Thymeleaf template presents a form that captures a username and password and posts
+them to `/login`. As configured, Spring Security provides a filter that intercepts that
+request and authenticates the user. If the user fails to authenticate, the page is
+redirected to `/login?error`, and your page displays the appropriate error message. Upon
+successfully signing out, your application is sent to `/login?logout`, and your page
+displays the appropriate success message.
 
-Last we need to provide the user a way to display the current username and Sign Out. Update the `hello.html` to say hello to the current user and contain a "Sign Out" form as shown below
+Last, you need to provide the visitor a way to display the current user name and sign out.
+To do so, update the `hello.html` to say hello to the current user and contain a
+`Sign Out` form, as the following listing (from `src/main/resources/templates/hello.html`)
+shows:
 
-`src/main/resources/templates/hello.html`
+====
+
 [source,html]
 ----
 include::complete/src/main/resources/templates/hello.html[]
 ----
+====
 
-We display the username by using Spring Security's integration with `HttpServletRequest#getRemoteUser()`. The "Sign Out" form submits a POST to "/logout". Upon successfully logging out it will redirect the user to "/login?logout".
+We display the username by using Spring Security's integration with
+`HttpServletRequest#getRemoteUser()`. The "`Sign Out`" form submits a POST to `/logout`.
+Upon successfully logging out, it redirects the user to `/login?logout`.
 
 [[run_the_app]]
-== Make the application executable
+== Run the Application
 
-Although it is possible to package this service as a traditional _web application archive_ or https://en.wikipedia.org/wiki/WAR_(file_format)[WAR] file for deployment to an external application server, the simpler approach demonstrated below creates a _standalone application_. You package everything in a single, executable JAR file, driven by a good old Java `main()` method. And along the way, you use Spring's support for embedding the https://tomcat.apache.org/[Tomcat] servlet container as the HTTP runtime, instead of deploying to an external instance.
+The Spring Initializr creates an application class for you. In this case, you need not
+modify the class. The following listing (from
+`src/main/java/com/example/securingweb/SecuringWebApplication.java`) shows the application
+class:
 
-
-`src/main/java/hello/Application.java`
-[source,java,tabsize=2]
+====
+[source,java]
 ----
-include::complete/src/main/java/hello/Application.java[]
+include::complete/src/main/java/com/example/securingweb/SecuringWebApplication.java[]
 ----
+====
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/spring-boot-application.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/spring-boot-application.adoc-new-path[]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_an_executable_jar_subhead.adoc[]
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_an_executable_jar_with_both.adoc[]
 
 
-[[run]]
-
-....
-... app starts up ...
-....
-
-Once the application starts up, point your browser to http://localhost:8080. You should see the home page:
+Once the application starts up, point your browser to `http://localhost:8080`. You should
+see the home page, as the following image shows:
 
 image::images/home.png[The application's home page]
 
-When you click on the link, it attempts to take you to the greeting page at `/hello`. But because that page is secured and you have not yet logged in, it takes you to the login page:
+When you click on the link, it attempts to take you to the greeting page at `/hello`.
+However, because that page is secured and you have not yet logged in, it takes you to the
+login page, as the following image shows:
 
 image::images/login.png[The login page]
 
-NOTE: If you jumped down here with the unsecured version, then you won't see this login page. Feel free to back up and write the rest of the security-based code.
+NOTE: If you jumped down here with the unsecured version, you do not see the login page.
+You should back up and write the rest of the security-based code.
 
-At the login page, sign in as the test user by entering "user" and "password" for the username and password fields, respectively. Once you submit the login form, you are authenticated and then taken to the greeting page:
+At the login page, sign in as the test user by entering `user` and `password` for the
+username and password fields, respectively. Once you submit the login form, you are
+authenticated and then taken to the greeting page, as the following image shows:
 
 image::images/greeting.png[The secured greeting page]
 
-If you click on the "Sign Out" button, your authentication is revoked, and you are returned to the log in page with a message indicating you are logged out.
+If you click on the *Sign Out* button, your authentication is revoked, and you are
+returned to the login page with a message indicating that you are logged out.
 
 
 == Summary
-Congratulations! You have developed a simple web application that is secured with Spring Security.
+Congratulations! You have developed a simple web application that is secured with Spring
+Security.
 
 == See Also
 
