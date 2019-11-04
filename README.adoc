@@ -135,7 +135,7 @@ We display the username by using Spring Security's integration with `HttpServlet
 [[run_the_app]]
 == Make the application executable
 
-Although it is possible to package this service as a traditional _web application archive_ or link:/understanding/WAR[WAR] file for deployment to an external application server, the simpler approach demonstrated below creates a _standalone application_. You package everything in a single, executable JAR file, driven by a good old Java `main()` method. And along the way, you use Spring's support for embedding the link:/understanding/Tomcat[Tomcat] servlet container as the HTTP runtime, instead of deploying to an external instance.
+Although it is possible to package this service as a traditional _web application archive_ or https://en.wikipedia.org/wiki/WAR_(file_format)[WAR] file for deployment to an external application server, the simpler approach demonstrated below creates a _standalone application_. You package everything in a single, executable JAR file, driven by a good old Java `main()` method. And along the way, you use Spring's support for embedding the https://tomcat.apache.org/[Tomcat] servlet container as the HTTP runtime, instead of deploying to an external instance.
 
 
 `src/main/java/hello/Application.java`
