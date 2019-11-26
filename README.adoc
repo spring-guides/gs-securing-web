@@ -53,7 +53,7 @@ include::initial/src/main/resources/templates/hello.html[]
 The web application is based on Spring MVC. Thus you need to configure Spring MVC and set up view controllers to expose these templates. Here's a configuration class for configuring Spring MVC in the application.
 
 `src/main/java/hello/MvcConfig.java`
-[source,java]
+[source,java,tabsize=2]
 ----
 include::initial/src/main/java/hello/MvcConfig.java[]
 ----
@@ -75,7 +75,7 @@ You do that by configuring Spring Security in the application. If Spring Securit
 With Gradle this would be one line in the `dependencies` closure:
 
 `build.gradle`
-[source,java]
+[source,java,tabsize=2]
 ----
 dependencies {
     ...
@@ -99,7 +99,7 @@ include::complete/pom.xml[tag=security]
 Here's a security configuration that ensures that only authenticated users can see the secret greeting:
 
 `src/main/java/hello/WebSecurityConfig.java`
-[source,java]
+[source,java,tabsize=2]
 ----
 include::complete/src/main/java/hello/WebSecurityConfig.java[]
 ----
@@ -139,7 +139,7 @@ Although it is possible to package this service as a traditional _web applicatio
 
 
 `src/main/java/hello/Application.java`
-[source,java]
+[source,java,tabsize=2]
 ----
 include::complete/src/main/java/hello/Application.java[]
 ----
