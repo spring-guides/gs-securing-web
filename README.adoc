@@ -158,7 +158,7 @@ testing) to the `<dependencies>` element in `pom.xml`, as the following listing 
 ----
 ====
 
-The following listing shows the finished `build.gradle` file:
+The following listing shows the finished `pom.xml` file:
 
 ====
 [source,text]
@@ -243,8 +243,6 @@ class:
 include::complete/src/main/java/com/example/securingweb/SecuringWebApplication.java[]
 ----
 ====
-
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/spring-boot-application.adoc-new-path[]
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_an_executable_jar_subhead.adoc[]
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_an_executable_jar_with_both.adoc[]
