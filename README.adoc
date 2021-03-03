@@ -3,6 +3,7 @@
 :DispatcherServlet: http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/servlet/DispatcherServlet.html
 :SpringApplication: http://docs.spring.io/spring-boot/docs/{spring_boot_version}/api/org/springframework/boot/SpringApplication.html
 :SpringBootSecurity: http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#boot-features-security
+:images: https://raw.githubusercontent.com/spring-guides/gs-securing-web/master/images
 :toc:
 :icons: font
 :source-highlighter: prettify
@@ -246,13 +247,13 @@ include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/
 Once the application starts up, point your browser to `http://localhost:8080`. You should
 see the home page, as the following image shows:
 
-image::images/home.png[The application's home page]
+image::{images}/home.png[The application's home page]
 
 When you click on the link, it attempts to take you to the greeting page at `/hello`.
 However, because that page is secured and you have not yet logged in, it takes you to the
 login page, as the following image shows:
 
-image::images/login.png[The login page]
+image::{images}/login.png[The login page]
 
 NOTE: If you jumped down here with the unsecured version, you do not see the login page.
 You should back up and write the rest of the security-based code.
@@ -261,7 +262,7 @@ At the login page, sign in as the test user by entering `user` and `password` fo
 username and password fields, respectively. Once you submit the login form, you are
 authenticated and then taken to the greeting page, as the following image shows:
 
-image::images/greeting.png[The secured greeting page]
+image::{images}/greeting.png[The secured greeting page]
 
 If you click on the *Sign Out* button, your authentication is revoked, and you are
 returned to the login page with a message indicating that you are logged out.
