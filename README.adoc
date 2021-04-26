@@ -3,7 +3,7 @@
 :DispatcherServlet: http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/servlet/DispatcherServlet.html
 :SpringApplication: http://docs.spring.io/spring-boot/docs/{spring_boot_version}/api/org/springframework/boot/SpringApplication.html
 :SpringBootSecurity: http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#boot-features-security
-:images: https://raw.githubusercontent.com/spring-guides/gs-securing-web/master/images
+:images: https://raw.githubusercontent.com/spring-guides/gs-securing-web/main/images
 :toc:
 :icons: font
 :source-highlighter: prettify
@@ -20,9 +20,9 @@ backed by a fixed list of users.
 == What You Need
 
 :java_version: 1.8
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/prereq_editor_jdk_buildtools.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/prereq_editor_jdk_buildtools.adoc[]
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/how_to_complete_this_guide.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/how_to_complete_this_guide.adoc[]
 
 [[scratch]]
 == Starting with Spring Initializr
@@ -250,8 +250,8 @@ include::complete/src/main/java/com/example/securingweb/SecuringWebApplication.j
 ----
 ====
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_an_executable_jar_subhead.adoc[]
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/build_an_executable_jar_with_both.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/build_an_executable_jar_subhead.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/build_an_executable_jar_with_both.adoc[]
 
 
 Once the application starts up, point your browser to `http://localhost:8080`. You should
@@ -291,4 +291,4 @@ The following guides may also be helpful:
 * https://spring.io/guides/topicals/spring-security-architecture/[Spring Security Architecture] (Reference guide)
 * https://spring.io/guides/tutorials/spring-security-and-angular-js/[Spring Security and Angular JS] (Tutorial)
 
-include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/master/footer.adoc[]
+include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/footer.adoc[]
