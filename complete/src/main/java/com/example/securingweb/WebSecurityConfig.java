@@ -31,8 +31,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	@Override
 	public UserDetailsService userDetailsService() {
+		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 		UserDetails user =
-			 User.withDefaultPasswordEncoder()
+			 User.builder().passwordEncoder(encoder::encode)
 				.username("user")
 				.password("password")
 				.roles("USER")
