@@ -113,7 +113,7 @@ the `dependencies` closure in `build.gradle`, as the following listing shows:
 [source,java]
 ----
 implementation 'org.springframework.boot:spring-boot-starter-security'
-implementation 'org.springframework.security:spring-security-test'
+testImplementation 'org.springframework.security:spring-security-test'
 ----
 ====
 
