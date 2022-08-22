@@ -165,11 +165,10 @@ include::complete/src/main/java/com/example/securingweb/WebSecurityConfig.java[]
 ====
 
 The `WebSecurityConfig` class is annotated with `@EnableWebSecurity` to enable Spring
-Security's web security support and provide the Spring MVC integration. It also extends
-`WebSecurityConfigurerAdapter` and overrides a couple of its methods to set some specifics
-of the web security configuration.
+Security's web security support and provide the Spring MVC integration. It also exposes
+two beans to set some specifics for the web security configuration:
 
-The `configure(HttpSecurity)` method defines which URL paths should be secured and which
+The `SecurityFilterChain` bean defines which URL paths should be secured and which
 should not. Specifically, the `/` and `/home` paths are configured to not require any
 authentication. All other paths must be authenticated.
 
@@ -177,7 +176,7 @@ When a user successfully logs in, they are redirected to the previously requeste
 that required authentication. There is a custom `/login` page (which is specified by
 `loginPage()`), and everyone is allowed to view it.
 
-The `userDetailsService()` method sets up an in-memory user store with a single user. That
+The `UserDetailsService` bean sets up an in-memory user store with a single user. That
 user is given a user name of `user`, a password of `password`, and a role of `USER`.
 
 Now you need to create the login page. There is already a view controller for the `login`
