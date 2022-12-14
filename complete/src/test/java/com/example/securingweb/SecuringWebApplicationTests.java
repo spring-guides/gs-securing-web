@@ -8,7 +8,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.FormLoginRequestBuilder;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
@@ -58,7 +60,10 @@ public class SecuringWebApplicationTests {
 	@Test
 	@WithMockUser
 	public void accessSecuredResourceAuthenticatedThenOk() throws Exception {
-		mockMvc.perform(get("/hello"))
-				.andExpect(status().isOk());
+		MvcResult mvcResult = mockMvc.perform(get("/hello"))
+				.andExpect(status().isOk())
+				.andReturn();
+
+		assertThat(mvcResult.getResponse().getContentAsString()).contains("Hello user!");
 	}
 }
