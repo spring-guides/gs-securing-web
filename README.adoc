@@ -106,14 +106,13 @@ the classpath, Spring Boot {SpringBootSecurity}[automatically secures all HTTP e
 with "`basic`" authentication. However, you can further customize the security settings.
 The first thing you need to do is add Spring Security to the classpath.
 
-With Gradle, you need to add two lines (one for the application and one for testing) in
+With Gradle, you need to add three lines (one for the application, one for Thymeleaf & Spring Security integration, and one for testing) in
 the `dependencies` closure in `build.gradle`, as the following listing shows:
 
 ====
 [source,java]
 ----
-implementation 'org.springframework.boot:spring-boot-starter-security'
-implementation 'org.springframework.security:spring-security-test'
+include::complete/build.gradle[tags=security-dependencies,indent=0]
 ----
 ====
 
@@ -122,7 +121,7 @@ The following listing shows the finished `build.gradle` file:
 ====
 [source,text]
 ----
-include::complete/build.gradle[]
+include::complete/build.gradle[tags=**]
 ----
 ====
 
@@ -132,15 +131,7 @@ testing) to the `<dependencies>` element in `pom.xml`, as the following listing 
 ====
 [source,zml]
 ----
-<dependency>
-  <groupId>org.springframework.boot</groupId>
-  <artifactId>spring-boot-starter-security</artifactId>
-</dependency>
-<dependency>
-  <groupId>org.springframework.security</groupId>
-  <artifactId>spring-security-test</artifactId>
-  <scope>test</scope>
-</dependency>
+include::complete/pom.xml[tags=security-dependencies,indent=0]
 ----
 ====
 
@@ -149,7 +140,7 @@ The following listing shows the finished `pom.xml` file:
 ====
 [source,text]
 ----
-include::complete/pom.xml[]
+include::complete/pom.xml[tags=**]
 ----
 ====
 
@@ -210,9 +201,11 @@ include::complete/src/main/resources/templates/hello.html[]
 ----
 ====
 
-We display the username by using Spring Security's integration with
-`HttpServletRequest#getRemoteUser()`. The "`Sign Out`" form submits a POST to `/logout`.
+We display the username by using Thymeleaf's integration with Spring Security. The "`Sign Out`" form submits a POST to `/logout`.
 Upon successfully logging out, it redirects the user to `/login?logout`.
+
+NOTE: Thymeleaf 3.1 no longer provides access to `HttpServletRequest` so `HttpServletRequest#getRemoteUser()` cannot be used to access the currently authenticated user.
+
 
 [[run_the_app]]
 == Run the Application
