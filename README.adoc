@@ -129,7 +129,7 @@ With Maven, you need to add two extra entries (one for the application and one f
 testing) to the `<dependencies>` element in `pom.xml`, as the following listing shows:
 
 ====
-[source,zml]
+[source,xml]
 ----
 include::complete/pom.xml[tags=security-dependencies,indent=0]
 ----
