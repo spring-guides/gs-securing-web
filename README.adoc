@@ -1,7 +1,4 @@
-:spring_version: current
 :spring_boot_version: current
-:DispatcherServlet: http://docs.spring.io/spring/docs/{spring_version}/javadoc-api/org/springframework/web/servlet/DispatcherServlet.html
-:SpringApplication: http://docs.spring.io/spring-boot/docs/{spring_boot_version}/api/org/springframework/boot/SpringApplication.html
 :SpringBootSecurity: http://docs.spring.io/spring-boot/docs/{spring_boot_version}/reference/htmlsingle/#boot-features-security
 :images: https://raw.githubusercontent.com/spring-guides/gs-securing-web/main/images
 :toc:
