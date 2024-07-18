@@ -257,7 +257,6 @@ The following guides may also be helpful:
 
 * https://spring.io/guides/gs/spring-boot/[Building an Application with Spring Boot]
 * https://spring.io/guides/gs/serving-web-content/[Serving Web Content with Spring MVC]
-* https://spring.io/guides/topicals/spring-security-architecture/[Spring Security Architecture] (Reference guide)
 * https://spring.io/guides/tutorials/spring-security-and-angular-js/[Spring Security and Angular JS] (Tutorial)
 
 include::https://raw.githubusercontent.com/spring-guides/getting-started-macros/main/footer.adoc[]
