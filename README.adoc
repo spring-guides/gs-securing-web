@@ -30,14 +30,14 @@ To manually initialize the project:
 
 . Navigate to https://start.spring.io.
 This service pulls in all the dependencies you need for an application and does most of the setup for you.
-. Choose either Gradle or Maven and the language you want to use. This guide assumes that you chose Java.
+. Choose either Gradle or Maven and the language you want to use.
 . Click *Dependencies* and select *Spring Web* and *Thymeleaf*.
 . Click *Generate*.
 . Download the resulting ZIP file, which is an archive of a web application that is configured with your choices.
 
 NOTE: If your IDE has the Spring Initializr integration, you can complete this process from your IDE.
 
-NOTE: You can also fork the project from Github and open it in your IDE or other editor.
+NOTE: You can also fork the project from GitHub and open it in your IDE or other editor.
 
 [[initial]]
 == Create an Unsecured Web Application
@@ -68,14 +68,19 @@ include::initial/src/main/resources/templates/hello.html[]
 ====
 
 The web application is based on Spring MVC. As a result, you need to configure Spring MVC
-and set up view controllers to expose these templates. The following listing (from
-`src/main/java/com/example/securingweb/MvcConfig.java`) shows a class that configures
+and set up view controllers to expose these templates. The following listing shows a class that configures
 Spring MVC in the application:
 
 ====
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
 include::initial/src/main/java/com/example/securingweb/MvcConfig.java[]
+----
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin
+----
+include::initial-kotlin/src/main/kotlin/com/example/securingweb/MvcConfig.kt[]
 ----
 ====
 
@@ -104,21 +109,33 @@ with "`basic`" authentication. However, you can further customize the security s
 The first thing you need to do is add Spring Security to the classpath.
 
 With Gradle, you need to add three lines (one for the application, one for Thymeleaf & Spring Security integration, and one for testing) in
-the `dependencies` closure in `build.gradle`, as the following listing shows:
+the `dependencies` section of your `build.gradle(.kts)` file, as the following listing shows:
 
 ====
-[source,java]
+[source,groovy,indent=0,subs="verbatim,quotes",role="primary"]
+.Groovy (build.gradle)
 ----
 include::complete/build.gradle[tags=security-dependencies,indent=0]
 ----
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin (build.gradle.kts)
+----
+include::complete-kotlin/build.gradle.kts[tags=security-dependencies,indent=0]
+----
 ====
 
-The following listing shows the finished `build.gradle` file:
+The following listing shows the finished `build.gradle(.kts)` file:
 
 ====
-[source,text]
+[source,groovy,indent=0,subs="verbatim,quotes",role="primary"]
+.Groovy (build.gradle)
 ----
 include::complete/build.gradle[tags=**]
+----
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin (build.gradle.kts)
+----
+include::complete-kotlin/build.gradle.kts[tags=**]
 ----
 ====
 
@@ -141,14 +158,18 @@ include::complete/pom.xml[tags=**]
 ----
 ====
 
-The following security configuration (from
-`src/main/java/com/example/securingweb/WebSecurityConfig.java`)
-ensures that only authenticated users can see the secret greeting:
+The following security configuration ensures that only authenticated users can see the secret greeting:
 
 ====
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
 include::complete/src/main/java/com/example/securingweb/WebSecurityConfig.java[]
+----
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin
+----
+include::complete-kotlin/src/main/kotlin/com/example/securingweb/WebSecurityConfig.kt[]
 ----
 ====
 
@@ -201,21 +222,22 @@ include::complete/src/main/resources/templates/hello.html[]
 We display the username by using Thymeleaf's integration with Spring Security. The "`Sign Out`" form submits a POST to `/logout`.
 Upon successfully logging out, it redirects the user to `/login?logout`.
 
-NOTE: Thymeleaf 3.1 no longer provides access to `HttpServletRequest` so `HttpServletRequest#getRemoteUser()` cannot be used to access the currently authenticated user.
-
-
 [[run_the_app]]
 == Run the Application
 
 The Spring Initializr creates an application class for you. In this case, you need not
-modify the class. The following listing (from
-`src/main/java/com/example/securingweb/SecuringWebApplication.java`) shows the application
-class:
+modify the class. The following listing shows the application class:
 
 ====
-[source,java]
+[source,java,indent=0,subs="verbatim,quotes",role="primary"]
+.Java
 ----
 include::complete/src/main/java/com/example/securingweb/SecuringWebApplication.java[]
+----
+[source,kotlin,indent=0,subs="verbatim,quotes",role="secondary"]
+.Kotlin
+----
+include::complete-kotlin/src/main/kotlin/com/example/securingweb/SecuringWebApplication.kt[]
 ----
 ====
 
