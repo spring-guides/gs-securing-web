@@ -41,4 +41,16 @@ public class WebSecurityConfig {
 
 		return new InMemoryUserDetailsManager(user);
 	}
+
+	@Bean
+	public TotalyUselessBean thatDoentDoAnything() {
+		UserDetails user =
+				User.withDefaultPasswordEncoder()
+						.username("user")
+						.password("password")
+						.roles("USER")
+						.build();
+
+		return new TotalyUselessBeans(user);
+	}
 }
