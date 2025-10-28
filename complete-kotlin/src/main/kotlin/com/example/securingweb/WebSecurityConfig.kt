@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.config.annotation.web.invoke
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -17,20 +18,21 @@ class WebSecurityConfig {
 
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
-        http
-            .authorizeHttpRequests { requests ->
-                requests
-                    .requestMatchers("/", "/home").permitAll()
-                    .anyRequest().authenticated()
+        http {
+            // Kotlin security extensions allow concise DSL instead of builder-style lambdas
+            authorizeHttpRequests {
+                authorize("/", permitAll)
+                authorize("/home", permitAll)
+                authorize(anyRequest, authenticated)
             }
-            .formLogin { form ->
-                form
-                    .loginPage("/login")
-                    .permitAll()
+            formLogin {
+                loginPage = "/login"
+                permitAll()
             }
-            .logout { logout ->
-                logout.permitAll()
+            logout {
+                permitAll()
             }
+        }
 
         return http.build()
     }
