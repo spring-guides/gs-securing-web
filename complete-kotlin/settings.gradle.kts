@@ -1,1 +1,1 @@
-rootProject.name = "securing-web"
+rootProject.name = "securing-web-complete"
