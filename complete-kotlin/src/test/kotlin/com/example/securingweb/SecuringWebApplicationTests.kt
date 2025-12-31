@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class SecuringWebApplicationTests @Autowired constructor(private val mockMvc: MockMvc) {
+class SecuringWebApplicationTests(@Autowired private val mockMvc: MockMvc) {
 
     @Test
     fun loginWithValidUserThenAuthenticated() {
