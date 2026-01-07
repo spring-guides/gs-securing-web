@@ -29,30 +29,30 @@ class SecuringWebApplicationTests {
 	void loginWithValidUserThenAuthenticated() throws Exception {
 		FormLoginRequestBuilder login = formLogin().user("user").password("password");
 
-		mockMvc.perform(login).andExpect(authenticated().withUsername("user"));
+		this.mockMvc.perform(login).andExpect(authenticated().withUsername("user"));
 	}
 
 	@Test
 	void loginWithInvalidUserThenUnauthenticated() throws Exception {
 		FormLoginRequestBuilder login = formLogin().user("invalid").password("invalidpassword");
 
-		mockMvc.perform(login).andExpect(unauthenticated());
+		this.mockMvc.perform(login).andExpect(unauthenticated());
 	}
 
 	@Test
 	void accessUnsecuredResourceThenOk() throws Exception {
-		mockMvc.perform(get("/")).andExpect(status().isOk());
+		this.mockMvc.perform(get("/")).andExpect(status().isOk());
 	}
 
 	@Test
 	void accessSecuredResourceUnauthenticatedThenRedirectsToLogin() throws Exception {
-		mockMvc.perform(get("/hello")).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/login"));
+		this.mockMvc.perform(get("/hello")).andExpect(status().is3xxRedirection()).andExpect(redirectedUrl("/login"));
 	}
 
 	@Test
 	@WithMockUser
 	void accessSecuredResourceAuthenticatedThenOk() throws Exception {
-		MvcResult mvcResult = mockMvc.perform(get("/hello")).andExpect(status().isOk()).andReturn();
+		MvcResult mvcResult = this.mockMvc.perform(get("/hello")).andExpect(status().isOk()).andReturn();
 
 		assertThat(mvcResult.getResponse().getContentAsString()).contains("Hello user!");
 	}
