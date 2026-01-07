@@ -19,6 +19,7 @@ public class WebSecurityConfig {
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		// @formatter:off
 		http
 			.authorizeHttpRequests((requests) -> requests
 				.requestMatchers("/", "/home").permitAll()
@@ -29,6 +30,7 @@ public class WebSecurityConfig {
 				.permitAll()
 			)
 			.logout(LogoutConfigurer::permitAll);
+		// @formatter:on
 
 		return http.build();
 	}
