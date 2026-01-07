@@ -15,10 +15,10 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfig {
+class WebSecurityConfig {
 
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) {
+	SecurityFilterChain securityFilterChain(HttpSecurity http) {
 		// @formatter:off
 		http
 			.authorizeHttpRequests((requests) -> requests
@@ -36,14 +36,15 @@ public class WebSecurityConfig {
 	}
 
 	@Bean
-	public PasswordEncoder passwordEncoder() {
+	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 
 	@Bean
-	public UserDetailsService userDetailsService(PasswordEncoder encoder) {
+	UserDetailsService userDetailsService(PasswordEncoder encoder) {
 		String password = encoder.encode("password");
 		UserDetails user = User.withUsername("user").password(password).roles("USER").build();
 		return new InMemoryUserDetailsManager(user);
 	}
+
 }
