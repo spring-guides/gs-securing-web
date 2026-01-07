@@ -41,15 +41,9 @@ public class WebSecurityConfig {
 	}
 
 	@Bean
-	public UserDetailsService userDetailsService() {
-		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		UserDetails user =
-			 User.builder()
-				.username("user")
-				.password(encoder.encode("password"))
-				.roles("USER")
-				.build();
-
+	public UserDetailsService userDetailsService(PasswordEncoder encoder) {
+		String password = encoder.encode("password");
+		UserDetails user = User.withUsername("user").password(password).roles("USER").build();
 		return new InMemoryUserDetailsManager(user);
 	}
 }
